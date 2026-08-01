@@ -2,1733 +2,2337 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#03121c">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#04121c">
 <title>Life Hunt — Arquivo Planetário</title>
+<!-- Versão leve: cartas em WebP 1200px, qualidade 88 -->
+
 <style>
 :root {
-  --bg:#03121c;
-  --panel:rgba(5,28,42,.92);
-  --panel2:rgba(9,45,63,.86);
-  --cyan:#2fe9ff;
-  --cyan2:#73f4ff;
-  --text:#f5fbff;
-  --muted:#9ab8c6;
-  --line:rgba(47,233,255,.35);
-  --shadow:0 0 22px rgba(47,233,255,.14);
+  --bg: #02080e;
+  --panel: rgba(7, 27, 40, .93);
+  --panel2: rgba(10, 40, 57, .82);
+  --line: rgba(76, 220, 255, .40);
+  --cyan: #43e6ff;
+  --cyan2: #a5f5ff;
+  --text: #edfaff;
+  --muted: #8eb7c4;
+  --shadow: 0 0 28px rgba(30, 215, 255, .12);
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  min-height:100vh;
-  color:var(--text);
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   background:
-    radial-gradient(circle at 15% 10%, rgba(0,170,220,.12), transparent 30%),
-    linear-gradient(180deg,#02101a,#061824 70%,#020b11);
-  font-family:Arial,Helvetica,sans-serif;
+    radial-gradient(circle at 20% 0%, rgba(0,161,214,.13), transparent 34rem),
+    radial-gradient(circle at 90% 25%, rgba(0,238,255,.08), transparent 28rem),
+    #02080e;
 }
-button,input{font:inherit}
-button{-webkit-tap-highlight-color:transparent}
-.oculto{display:none!important}
 
-#home{
-  min-height:100vh;
-  position:relative;
+button, input { font: inherit; }
+
+button { -webkit-tap-highlight-color: transparent; }
+
+.app {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.hero {
+  position: relative;
+  min-height: min(66vh, 660px);
+  background-image:
+    linear-gradient(to bottom, rgba(1,8,13,.03) 35%, rgba(1,8,13,.94) 100%),
+    url("cover.jpg");
+  background-size: cover;
+  background-position: center;
+  border-left: 1px solid rgba(70,226,255,.10);
+  border-right: 1px solid rgba(70,226,255,.10);
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: .6;
+  box-shadow: 0 0 24px var(--cyan);
+}
+
+.hero-title {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 26px;
+  text-align: center;
+}
+
+.hero-kicker {
+  color: var(--cyan);
+  letter-spacing: .36em;
+  font-size: clamp(.72rem, 2.8vw, .95rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(67,230,255,.6);
+}
+
+.hero-title h1 {
+  margin: 8px 0 0;
+  font-size: clamp(1.7rem, 6vw, 3rem);
+  font-weight: 300;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.home-content {
+  padding: 8px 16px 56px;
+}
+
+.intro {
+  max-width: 760px;
+  margin: 18px auto 20px;
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0,1fr));
+  gap: 12px;
+  margin: 22px auto 0;
+}
+
+.level-card {
+  position: relative;
+  appearance: none;
+  border: 1px solid var(--line);
   background:
-    linear-gradient(180deg,rgba(0,7,12,.20),rgba(0,7,12,.74) 56%,#03121c 100%),
-    url('cover.jpg') center top/cover no-repeat;
+    linear-gradient(145deg, rgba(13,58,76,.95), rgba(3,17,27,.97));
+  color: var(--text);
+  border-radius: 18px;
+  min-height: 150px;
+  padding: 18px 12px;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
-.home-inner{
-  width:min(92%,620px);
-  margin:auto;
-  padding:52vh 0 42px;
-  text-align:center;
-}
-.home-title{
-  margin:0 0 5px;
-  letter-spacing:.35em;
-  padding-left:.35em;
-  font-size:clamp(30px,8vw,46px);
-  text-shadow:0 0 14px rgba(47,233,255,.75);
-}
-.home-sub{
-  margin:0 0 22px;
-  color:var(--cyan2);
-  text-transform:uppercase;
-  letter-spacing:.17em;
-  font-size:13px;
-}
-.level-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:10px;
-}
-.level-btn{
-  position:relative;
-  overflow:hidden;
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:16px 18px;
-  color:#fff;
-  background:linear-gradient(135deg,rgba(7,43,62,.88),rgba(8,26,39,.94));
-  box-shadow:var(--shadow);
-  cursor:pointer;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.level-btn::before{
-  content:"";
-  position:absolute;
-  left:0; top:0; bottom:0;
-  width:4px;
-  background:var(--cyan);
-  box-shadow:0 0 12px var(--cyan);
-}
-.level-name{font-size:20px;font-weight:700;letter-spacing:.08em}
-.level-count{font-size:12px;color:var(--muted)}
-.home-note{margin:18px 8px 0;color:#a7bfca;font-size:12px;line-height:1.45}
 
-.app{
-  width:min(94%,720px);
-  margin:auto;
-  padding:16px 0 42px;
+.level-card::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(83,228,255,.13);
+  border-radius: 13px;
+  pointer-events: none;
 }
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:20;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:10px 0;
-  background:linear-gradient(180deg,rgba(3,18,28,.98),rgba(3,18,28,.88),transparent);
-  backdrop-filter:blur(6px);
-}
-.back{
-  border:1px solid var(--line);
-  background:#092637;
-  color:var(--cyan2);
-  border-radius:10px;
-  padding:10px 12px;
-  cursor:pointer;
-}
-.top-title{margin:0;font-size:20px;letter-spacing:.06em}
-.search{
-  width:100%;
-  margin:8px 0 12px;
-  background:#071d2a;
-  color:white;
-  border:1px solid rgba(47,233,255,.24);
-  border-radius:12px;
-  padding:13px 14px;
-  outline:none;
-}
-.search:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(47,233,255,.09)}
-.planet-list{display:grid;gap:9px}
-.planet-row{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  width:100%;
-  border:1px solid rgba(47,233,255,.22);
-  background:linear-gradient(135deg,#082433,#071b27);
-  color:white;
-  border-radius:13px;
-  padding:8px;
-  cursor:pointer;
-  text-align:left;
-}
-.planet-row img{
-  width:58px;
-  height:70px;
-  object-fit:contain;
-  border-radius:7px;
-  flex:0 0 auto;
-}
-.planet-row strong{display:block;font-size:17px}
-.planet-row span{display:block;margin-top:4px;color:var(--muted);font-size:12px}
-.empty{color:var(--muted);text-align:center;padding:28px 8px}
 
-.viewer{padding-bottom:30px}
-.card-wrap{
-  display:flex;
-  justify-content:center;
-  margin:4px 0 16px;
+.level-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(86,237,255,.8);
+  box-shadow: 0 0 32px rgba(28,220,255,.18);
 }
-.planet-card{
-  width:min(82vw,390px);
-  height:auto;
-  display:block;
-  filter:drop-shadow(0 0 20px rgba(42,213,255,.19));
-  user-select:none;
-  -webkit-user-drag:none;
+
+.level-roman {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 11px;
+  border-radius: 50%;
+  border: 2px solid rgba(87,235,255,.75);
+  background: radial-gradient(circle, rgba(44,207,255,.18), rgba(2,11,18,.9) 67%);
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 300;
+  box-shadow: inset 0 0 20px rgba(38,225,255,.18), 0 0 20px rgba(38,225,255,.14);
 }
-.detail-name{
-  text-align:center;
-  margin:2px 0 2px;
-  font-size:26px;
-  letter-spacing:.04em;
+
+.level-label {
+  display: block;
+  color: var(--cyan2);
+  letter-spacing: .10em;
+  font-size: .82rem;
+  text-transform: uppercase;
 }
-.detail-level{
-  text-align:center;
-  margin:0 0 17px;
-  color:var(--cyan2);
-  font-size:13px;
-  letter-spacing:.15em;
-  text-transform:uppercase;
+
+.level-count {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: .78rem;
 }
-.effects-title{
-  margin:0 0 8px;
-  color:#cceef5;
-  font-size:13px;
-  text-transform:uppercase;
-  letter-spacing:.14em;
+
+.screen {
+  display: none;
+  padding: 14px 16px 56px;
 }
-.effects{display:grid;gap:10px}
-.effect{
-  border:1px solid rgba(47,233,255,.20);
-  background:linear-gradient(135deg,rgba(8,42,59,.96),rgba(6,27,39,.96));
-  border-radius:12px;
-  padding:13px 14px;
-  line-height:1.45;
-  box-shadow:0 5px 18px rgba(0,0,0,.17);
+
+.screen.active { display: block; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 62px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(2,8,14,.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(65,223,255,.14);
 }
-.effect-head{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:54px;
-  margin-right:8px;
-  padding:4px 8px;
-  border:1px solid rgba(47,233,255,.38);
-  border-radius:999px;
-  color:var(--cyan2);
-  font-weight:700;
-  letter-spacing:.05em;
-  font-size:13px;
+
+.back {
+  appearance: none;
+  border: 1px solid rgba(67,230,255,.23);
+  background: rgba(9,36,51,.85);
+  color: var(--cyan2);
+  border-radius: 999px;
+  padding: 9px 13px;
+  cursor: pointer;
 }
-.optional{
-  color:#ffe9a7;
-  font-weight:700;
+
+.screen-title {
+  margin: 0;
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  font-weight: 400;
+  letter-spacing: .06em;
 }
-.nav{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  align-items:center;
-  gap:10px;
-  margin:16px 0 5px;
+
+.search {
+  width: 100%;
+  margin: 18px 0 14px;
+  border: 1px solid rgba(67,230,255,.25);
+  border-radius: 14px;
+  background: rgba(6,29,42,.82);
+  color: #fff;
+  padding: 14px 16px;
+  outline: none;
 }
-.nav button{
-  border:1px solid var(--line);
-  background:#0a3246;
-  color:white;
-  border-radius:11px;
-  padding:12px;
-  cursor:pointer;
+
+.search:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(67,230,255,.09);
 }
-.nav button:last-child{justify-self:stretch}
-.counter{color:var(--muted);font-size:13px;min-width:62px;text-align:center}
-.swipe-tip{text-align:center;color:#7897a5;font-size:12px;margin-top:8px}
-@media (min-width:600px){
-  .level-grid{grid-template-columns:1fr 1fr}
-  .level-btn:last-child{grid-column:1/-1}
-  .planet-list{grid-template-columns:1fr 1fr}
+
+.planet-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
+}
+
+.planet-button {
+  appearance: none;
+  border: 1px solid rgba(67,230,255,.17);
+  background: linear-gradient(135deg, rgba(10,42,58,.90), rgba(4,20,31,.92));
+  color: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  min-height: 76px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.planet-button:hover {
+  border-color: rgba(67,230,255,.58);
+}
+
+.planet-button strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.planet-button small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.planet-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .98fr) minmax(320px, 1.02fr);
+  align-items: start;
+  gap: 24px;
+  padding-top: 18px;
+}
+
+.card-shell {
+  position: sticky;
+  top: 82px;
+  background: rgba(3,15,23,.75);
+  border: 1px solid rgba(67,230,255,.18);
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: var(--shadow);
+  touch-action: pan-y;
+}
+
+.card-image {
+  display: block;
+  width: 100%;
+  max-width: 620px;
+  height: auto;
+  margin: auto;
+  border-radius: 15px;
+}
+
+.effects-panel {
+  border: 1px solid rgba(67,230,255,.17);
+  border-radius: 20px;
+  background: var(--panel);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.planet-heading {
+  text-align: center;
+  padding: 2px 4px 16px;
+  border-bottom: 1px solid rgba(67,230,255,.12);
+  margin-bottom: 12px;
+}
+
+.planet-heading h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 5vw, 2.5rem);
+  font-weight: 350;
+}
+
+.planet-heading .lvl {
+  margin-top: 5px;
+  color: var(--cyan);
+  letter-spacing: .16em;
+  font-size: .82rem;
+  text-transform: uppercase;
+}
+
+.effects-title {
+  margin: 14px 0 10px;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .20em;
+  text-transform: uppercase;
+}
+
+.effect {
+  display: grid;
+  grid-template-columns: 66px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 12px;
+  margin: 9px 0;
+  border: 1px solid rgba(67,230,255,.13);
+  border-radius: 14px;
+  background: rgba(10,42,58,.72);
+}
+
+.effect-icon-wrap {
+  text-align: center;
+}
+
+.effect-icon {
+  display: block;
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  margin: 0 auto 2px;
+  filter: drop-shadow(0 0 6px rgba(57,224,255,.18));
+}
+
+.effect-code {
+  display: block;
+  color: var(--cyan2);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.effect-text {
+  color: #effbff;
+  line-height: 1.48;
+  font-size: .98rem;
+}
+
+.optional-icon {
+  display: inline-block;
+  width: 27px;
+  height: 27px;
+  object-fit: contain;
+  vertical-align: -8px;
+  margin-left: 6px;
+  filter: drop-shadow(0 0 5px rgba(73,255,163,.25));
+}
+
+.no-effects {
+  color: var(--muted);
+  padding: 18px 0;
+}
+
+.nav {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.nav button {
+  appearance: none;
+  border: 1px solid rgba(67,230,255,.28);
+  background: rgba(10,44,60,.88);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+
+.nav button:last-child { justify-self: end; }
+
+.counter {
+  color: var(--muted);
+  font-size: .86rem;
+}
+
+.swipe-hint {
+  text-align: center;
+  color: #668d98;
+  font-size: .76rem;
+  margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .level-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .level-card:last-child { grid-column: 1 / -1; }
+  .planet-layout { grid-template-columns: 1fr; }
+  .card-shell { position: static; }
+  .card-image { max-width: 620px; }
+}
+
+@media (max-width: 560px) {
+  .hero { min-height: 58vh; }
+  .home-content, .screen { padding-left: 12px; padding-right: 12px; }
+  .planet-list { grid-template-columns: 1fr; }
+  .level-card { min-height: 132px; }
+  .effect {
+    grid-template-columns: 56px 1fr;
+    padding: 11px 10px;
+  }
+  .effect-icon { width: 46px; height: 46px; }
+  .effects-panel { padding: 12px; }
+  .nav button { padding: 11px 12px; font-size: .9rem; }
 }
 </style>
 </head>
+
 <body>
+<div class="app">
 
-<section id="home">
-  <div class="home-inner">
-    <h1 class="home-title">LIFE HUNT</h1>
-    <p class="home-sub">Arquivo Planetário</p>
-    <div id="levelGrid" class="level-grid"></div>
-    <p class="home-note">Selecione o nível do sistema estelar para consultar os planetas e seus efeitos.</p>
-  </div>
-</section>
-
-<main id="listScreen" class="app oculto">
-  <div class="topbar">
-    <button class="back" onclick="showHome()">←</button>
-    <h2 id="listTitle" class="top-title">Nível I</h2>
-  </div>
-  <input id="search" class="search" type="search" placeholder="Buscar planeta..." oninput="renderList()">
-  <div id="planetList" class="planet-list"></div>
-</main>
-
-<main id="detailScreen" class="app viewer oculto">
-  <div class="topbar">
-    <button class="back" onclick="backToList()">← Lista</button>
-    <h2 class="top-title">Arquivo Planetário</h2>
-  </div>
-
-  <div id="swipeArea">
-    <div class="card-wrap">
-      <img id="cardImage" class="planet-card" alt="">
+  <section id="homeScreen">
+    <div class="hero">
+      <div class="hero-title">
+        <div class="hero-kicker">Arquivo Planetário</div>
+        <h1>Consulta de Exoplanetas</h1>
+      </div>
     </div>
-    <h1 id="planetName" class="detail-name"></h1>
-    <p id="planetLevel" class="detail-level"></p>
-    <p class="effects-title">Efeitos da investigação</p>
-    <div id="effects" class="effects"></div>
-  </div>
 
-  <div class="nav">
-    <button onclick="previousPlanet()">← Anterior</button>
-    <span id="counter" class="counter"></span>
-    <button onclick="nextPlanet()">Próximo →</button>
-  </div>
-  <div class="swipe-tip">No celular, deslize para a esquerda ou direita.</div>
-</main>
+    <div class="home-content">
+      <p class="intro">
+        Selecione o nível do Sistema Estelar para consultar as cartas e seus efeitos.
+      </p>
+      <div id="levelGrid" class="level-grid"></div>
+    </div>
+  </section>
+
+  <section id="listScreen" class="screen">
+    <div class="topbar">
+      <button class="back" onclick="showHome()">← Níveis</button>
+      <h1 id="listTitle" class="screen-title"></h1>
+    </div>
+
+    <input id="searchInput" class="search" type="search" placeholder="Buscar planeta..." autocomplete="off">
+    <div id="planetList" class="planet-list"></div>
+  </section>
+
+  <section id="planetScreen" class="screen">
+    <div class="topbar">
+      <button class="back" onclick="showList()">← Lista</button>
+      <h1 id="planetTopTitle" class="screen-title">Planeta</h1>
+    </div>
+
+    <div class="planet-layout">
+      <div id="cardShell" class="card-shell">
+        <img id="cardImage" class="card-image" alt="">
+      </div>
+
+      <div class="effects-panel">
+        <div class="planet-heading">
+          <h2 id="planetName"></h2>
+          <div id="planetLevel" class="lvl"></div>
+        </div>
+
+        <div class="effects-title">Efeitos de investigação</div>
+        <div id="effects"></div>
+
+        <div class="nav">
+          <button onclick="previousPlanet()">← Anterior</button>
+          <span id="counter" class="counter"></span>
+          <button onclick="nextPlanet()">Próximo →</button>
+        </div>
+
+        <div class="swipe-hint">No celular, deslize a carta para a esquerda ou para a direita.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
 
 <script>
-const planetas = [
+const PLANETAS = [
   {
     "nivel": 1,
     "nome": "Ademeris",
-    "imagem": "ademeris.png",
+    "nome_anterior": null,
+    "imagem": "Ademeris.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 2 CC: Compre o planeta do topo do baralho Nível 1. (Opcional)"
+        "tipo": "ATM",
+        "texto": "Pague 2 CC: Compre o planeta do topo do baralho Nível 1.",
+        "opcional": true,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "ELET",
-        "text": "Descarte esse planeta, compre o planeta do topo do baralho Nível 1 e ative um efeito."
+        "tipo": "ELET",
+        "texto": "Descarte esse planeta, compre o planeta do topo do baralho Nível 1 e ative um efeito.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       },
       {
-        "attr": "GRA",
-        "text": "Descarte outro planeta de seu Arsenal: Ganhe 2 CC. (Opcional)"
+        "tipo": "GRA",
+        "texto": "Descarte outro planeta de seu Arsenal: Ganhe 2 CC.",
+        "opcional": true,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 1,
-    "nome": "Altair Secundus",
-    "imagem": "altair-secundus.png",
+    "nome": "Altairis-II",
+    "nome_anterior": "Altair Secundus",
+    "imagem": "Altairis-II.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Revele os planetas no topo das pilhas Nível 2+. Ganhe 1 CC por GRA revelado (até 2 CC)."
+        "tipo": "ATM",
+        "texto": "Revele os planetas no topo das pilhas Nível 2+. Ganhe 1 CC por GRA revelado (até 2 CC).",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "ROC",
-        "text": "Pague 2 CC: Ganhe 1 PV. (Opcional)"
+        "tipo": "ROC",
+        "texto": "Pague 2 CC: Ganhe 1 PV.",
+        "opcional": true,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "GRA",
-        "text": "Ganhe 1 CC."
+        "tipo": "GRA",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Aquorys",
-    "imagem": "aquorys.png",
+    "nome_anterior": null,
+    "imagem": "Aquorys.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 1 CC."
+        "tipo": "ATM",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 1 CC. +1 se não possuir um planeta VUL em seu Arsenal Planetário."
+        "tipo": "H₂O",
+        "texto": "Ganhe 1 CC. +1 se não possuir um planeta VUL em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ELET",
-        "text": "Ganhe 1 CC para cada 2 planetas H₂O em seu Arsenal."
+        "tipo": "ELET",
+        "texto": "Ganhe 1 CC para cada 2 planetas H₂O em seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Asteria",
-    "imagem": "asteria.png",
+    "nome_anterior": null,
+    "imagem": "Asteria.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Nesta rodada, o efeito de custo/benefício do seu próximo planeta ZH é dobrado."
+        "tipo": "ZH",
+        "texto": "Nesta rodada, o efeito de custo/benefício do seu próximo planeta ZH é dobrado.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ROC",
-        "text": "Mova esse planeta 1 espaço no seu Arsenal Planetário."
+        "tipo": "ROC",
+        "texto": "Mova esse planeta 1 espaço no seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "GRA",
-        "text": "Ganhe 1 CC."
+        "tipo": "GRA",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 1,
-    "nome": "Centauri-S",
-    "imagem": "centauri-s.png",
+    "nome": "Centauron-S7",
+    "nome_anterior": "Centauri-S",
+    "imagem": "Centauron-S7.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 1 CC."
+        "tipo": "ATM",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "MAG",
-        "text": "Ganhe 1 CC se possuir um planeta GRA."
+        "tipo": "MAG",
+        "texto": "Ganhe 1 CC se possuir um planeta GRA.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "VUL",
-        "text": "Descarte esse planeta, compre o planeta do topo do Sistema Nível 2."
+        "tipo": "VUL",
+        "texto": "Descarte esse planeta, compre o planeta do topo do Sistema Nível 2.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 1,
-    "nome": "Cygni-9",
-    "imagem": "cygni-9.png",
+    "nome": "Cygnara-9X",
+    "nome_anterior": "Cygni-9",
+    "imagem": "Cygnara-9X.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Se houver um planeta H₂O adjacente a Cygni-9: Ganhe 1 CC. Senão: Pague 1 CC."
+        "tipo": "ZH",
+        "texto": "Se houver um planeta H₂O adjacente a Cygnara-9X: Ganhe 1 CC. Senão: Pague 1 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ROC",
-        "text": "Mova Cygni-9. Se não houver planetas VUL a até 2 espaços de Cygni-9: Ganhe 2 CC."
+        "tipo": "ROC",
+        "texto": "Mova Cygnara-9X. Se não houver planetas VUL a até 2 espaços de Cygnara-9X: Ganhe 2 CC.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "ELET",
-        "text": "Ganhe 2 CC para cada trio contínuo de planetas ELET em seu Arsenal Planetário."
+        "tipo": "ELET",
+        "texto": "Ganhe 2 CC para cada trio contínuo de planetas ELET em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 1,
-    "nome": "Epsilon Eridani",
-    "imagem": "epsilon-eridani.png",
+    "nome": "Erydanis-E7",
+    "nome_anterior": "Epsilon Eridani",
+    "imagem": "Erydanis-E7.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Pague 1 CC para outro jogador."
+        "tipo": "ZH",
+        "texto": "Pague 1 CC para outro jogador.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "MAG",
-        "text": "Ganhe 1 CC. Se for o único MAG ativado nessa ação, transfira 1 CC de outro jogador para você."
+        "tipo": "MAG",
+        "texto": "Ganhe 1 CC. Se for o único MAG ativado nessa ação, transfira 1 CC de outro jogador para você.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "VUL",
-        "text": "Todos jogadores ganham 1 CC."
+        "tipo": "VUL",
+        "texto": "Todos jogadores ganham 1 CC.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Galileon",
-    "imagem": "galileon.png",
+    "nome_anterior": null,
+    "imagem": "Galileon.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Coloque este planeta no centro de seu Arsenal Planetário ou entre os dois planetas centrais."
+        "tipo": "MAG",
+        "texto": "Coloque este planeta no centro de seu Arsenal Planetário ou entre os dois planetas centrais.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganha 1 CC para cada planeta GRA adjacente."
+        "tipo": "ROC",
+        "texto": "Ganha 1 CC para cada planeta GRA adjacente.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "GRA",
-        "text": "Ganhe 1 CC. Mova qualquer outro planeta GRA em seu Arsenal Planetário."
+        "tipo": "GRA",
+        "texto": "Ganhe 1 CC. Mova qualquer outro planeta GRA em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Glacea",
-    "imagem": "glacea.png",
+    "nome_anterior": null,
+    "imagem": "Glacea.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Ganhe 1 CC."
+        "tipo": "ZH",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 1 CC. Se iniciou o round com 0, ganhe 2."
+        "tipo": "H₂O",
+        "texto": "Ganhe 1 CC. Se iniciou o round com 0, ganhe 2.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ELET",
-        "text": "Bloqueie 1 equipamento do próximo jogador por uma rodada."
+        "tipo": "ELET",
+        "texto": "Bloqueie 1 equipamento do próximo jogador por uma rodada.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Kaelen-18",
-    "imagem": "kaelen-18.png",
+    "nome_anterior": null,
+    "imagem": "Kaelen-18.webp",
     "efeitos": [
       {
-        "attr": "H₂O",
-        "text": "Ganhe 1 CC se possuir um planeta ZH adjacente a Kaelen-18."
+        "tipo": "H₂O",
+        "texto": "Ganhe 1 CC se possuir um planeta ZH adjacente a Kaelen-18.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 1 CC."
+        "tipo": "ROC",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "VUL",
-        "text": "Pague 1 CC para outro jogador a sua escolha: Ganhe 1 PV. (Opcional)"
+        "tipo": "VUL",
+        "texto": "Pague 1 CC para outro jogador a sua escolha: Ganhe 1 PV.",
+        "opcional": true,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Luthien",
-    "imagem": "luthien.png",
+    "nome_anterior": null,
+    "imagem": "Luthien.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Pague 1 PV: Ganhe 2 CC\nou\nPague 2 CC: Ganhe 1 PV. (Opcional)"
+        "tipo": "MAG",
+        "texto": "Pague 1 PV: Ganhe 2 CC\nou\nPague 2 CC: Ganhe 1 PV.",
+        "opcional": true,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 1 CC."
+        "tipo": "ROC",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "GRA",
-        "text": "Pague 2 CC: Olhe os 3 planetas do topo da pilha de Nível 2. Adquira 1 para seu Arsenal e descarte os outros 2.  (Opcional)"
+        "tipo": "GRA",
+        "texto": "Pague 2 CC: Olhe os 3 planetas do topo da pilha de Nível 2. Adquira 1 para seu Arsenal e descarte os outros 2.",
+        "opcional": true,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Nautic 4546c",
-    "imagem": "nautic-4546c.png",
+    "nome_anterior": null,
+    "imagem": "Nautic 4546c.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Sua próxima Tecnologia Avançada custa -1 CC."
+        "tipo": "ATM",
+        "texto": "Sua próxima Tecnologia Avançada custa -1 CC.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 1 CC. Se este for o único H₂O ativado nesta ação, ganhe +2 CC."
+        "tipo": "H₂O",
+        "texto": "Ganhe 1 CC. Se este for o único H₂O ativado nesta ação, ganhe +2 CC.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "VUL",
-        "text": "Até o início de seu próximo turno, todas as Tecnologias Avançadas estão bloqueadas."
+        "tipo": "VUL",
+        "texto": "Até o início de seu próximo turno, todas as Tecnologias Avançadas estão bloqueadas.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Nixis Major",
-    "imagem": "nixis-major.png",
+    "nome_anterior": null,
+    "imagem": "Nixis Major.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 1 CC. Se possuir Nixis Minor, ganhe 2."
+        "tipo": "ATM",
+        "texto": "Ganhe 1 CC. Se possuir Nixis Minor, ganhe 2.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "MAG",
-        "text": "Pague 2 CC. Se possuir Nixis Minor, pague 1."
+        "tipo": "MAG",
+        "texto": "Pague 2 CC. Se possuir Nixis Minor, pague 1.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "GRA",
-        "text": "Se possuir Nixis Minor, descarte-o e ganhe 3 PV. (Opcional)"
+        "tipo": "GRA",
+        "texto": "Se possuir Nixis Minor, descarte-o e ganhe 3 PV.",
+        "opcional": true,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Nixis Minor",
-    "imagem": "nixis-minor.png",
+    "nome_anterior": null,
+    "imagem": "Nixis Minor.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 1 CC."
+        "tipo": "ATM",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "MAG",
-        "text": "Pague 1 CC."
+        "tipo": "MAG",
+        "texto": "Pague 1 CC.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "GRA",
-        "text": "Ganhe 1 PV se possuir Nixis Major."
+        "tipo": "GRA",
+        "texto": "Ganhe 1 PV se possuir Nixis Major.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 1,
-    "nome": "Orionis-X",
-    "imagem": "orionis-x.png",
+    "nome": "Orionyx-X",
+    "nome_anterior": "Orionis-X",
+    "imagem": "Orionyx-X.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 1 CC, se possuir 6 ou mais planetas, pague 2."
+        "tipo": "ATM",
+        "texto": "Pague 1 CC, se possuir 6 ou mais planetas, pague 2.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 1 CC."
+        "tipo": "ROC",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "ELET",
-        "text": "Ganhe 1 PV se possuir 6 ou mais planetas em seu Arsenal."
+        "tipo": "ELET",
+        "texto": "Ganhe 1 PV se possuir 6 ou mais planetas em seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 1,
-    "nome": "Rigel-9A",
-    "imagem": "rigel-9a.png",
+    "nome": "Rigelis-9A",
+    "nome_anterior": "Rigel-9A",
+    "imagem": "Rigelis-9A.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Todos jogadores pagam 1 CC."
+        "tipo": "ZH",
+        "texto": "Todos jogadores pagam 1 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "MAG",
-        "text": "Ganhe 1 CC. Mova esse planeta 1 espaço."
+        "tipo": "MAG",
+        "texto": "Ganhe 1 CC. Mova esse planeta 1 espaço.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ELET",
-        "text": "Dobre o próximo ganho de CC (qualquer fonte), mesmo que não seja nesta rodada."
+        "tipo": "ELET",
+        "texto": "Dobre o próximo ganho de CC (qualquer fonte), mesmo que não seja nesta rodada.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Talos-5",
-    "imagem": "talos-5.png",
+    "nome_anterior": null,
+    "imagem": "Talos-5.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Ganhe 1 CC se possuir um planeta VUL."
+        "tipo": "ZH",
+        "texto": "Ganhe 1 CC se possuir um planeta VUL.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "MAG",
-        "text": "Ganhe 1 CC se possuir 3 ou mais planetas em seu Arsenal."
+        "tipo": "MAG",
+        "texto": "Ganhe 1 CC se possuir 3 ou mais planetas em seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 1 CC se possuir duas ou mais Tecnologias Avançadas."
+        "tipo": "ROC",
+        "texto": "Ganhe 1 CC se possuir duas ou mais Tecnologias Avançadas.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       }
     ]
   },
   {
     "nivel": 1,
     "nome": "Tethys",
-    "imagem": "tethys.png",
+    "nome_anterior": null,
+    "imagem": "Tethys.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 1 CC."
+        "tipo": "ATM",
+        "texto": "Pague 1 CC.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "MAG",
-        "text": "1 CC bônus no próximo ganho (qualquer fonte), mesmo que não seja nesta rodada. (Acumulável)"
+        "tipo": "MAG",
+        "texto": "1 CC bônus no próximo ganho (qualquer fonte), mesmo que não seja nesta rodada. (Acumulável)",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "VUL",
-        "text": "Devolva 1 CC de outro jogador para a reserva."
+        "tipo": "VUL",
+        "texto": "Devolva 1 CC de outro jogador para a reserva.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 1,
-    "nome": "Trappist-42",
-    "imagem": "trappist-42.png",
+    "nome": "TRAPPIST-42R",
+    "nome_anterior": "Trappist-42",
+    "imagem": "TRAPPIST-42R.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Pague 1 CC."
+        "tipo": "ZH",
+        "texto": "Pague 1 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Pague 1 CC."
+        "tipo": "H₂O",
+        "texto": "Pague 1 CC.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Ganhe 1 PV: Entregue esse planeta ao Arsenal Planetário de outro jogador."
+        "tipo": "GRA",
+        "texto": "Ganhe 1 PV: Entregue esse planeta ao Arsenal Planetário de outro jogador.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 1,
-    "nome": "Vega-9",
-    "imagem": "vega-9.png",
+    "nome": "Vegara-9X",
+    "nome_anterior": "Vega-9",
+    "imagem": "Vegara-9X.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Ganhe 1 CC."
+        "tipo": "ZH",
+        "texto": "Ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Se não possuir planetas Nível 3, 4 ou 5, ganhe 2 CC."
+        "tipo": "H₂O",
+        "texto": "Se não possuir planetas Nível 3, 4 ou 5, ganhe 2 CC.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ELET",
-        "text": "Adquira 1 CC do jogador com mais Créditos Científicos."
+        "tipo": "ELET",
+        "texto": "Adquira 1 CC do jogador com mais Créditos Científicos.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Aethelgard",
-    "imagem": "aethelgard.png",
+    "nome_anterior": null,
+    "imagem": "Aethelgard.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 1 CC: Ative o efeito ZH de um planeta seu ou de outro jogador, exceto Nível 5."
+        "tipo": "ATM",
+        "texto": "Pague 1 CC: Ative o efeito ZH de um planeta seu ou de outro jogador, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 3 CC. Entregue esse planeta ao Arsenal Planetário de outro jogador."
+        "tipo": "H₂O",
+        "texto": "Ganhe 3 CC. Entregue esse planeta ao Arsenal Planetário de outro jogador.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Ative o efeito ATM de outro planeta em seu Arsenal, exceto Nível 5."
+        "tipo": "GRA",
+        "texto": "Ative o efeito ATM de outro planeta em seu Arsenal, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 2,
-    "nome": "Cassiopeia",
-    "imagem": "cassiopeia.png",
+    "nome": "Cassiopeia-V7",
+    "nome_anterior": "Cassiopeia",
+    "imagem": "Cassiopeia-V7.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Escolha um oponente. Você ganha 2 CC e ele ganha 1 CC."
+        "tipo": "ZH",
+        "texto": "Escolha um oponente. Você ganha 2 CC e ele ganha 1 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "VUL",
-        "text": "Pague 1 CC: Escolha um oponente. A próxima Tecnologia Avançada que ele comprar custa +2 CC. (Opcional)"
+        "tipo": "VUL",
+        "texto": "Pague 1 CC: Escolha um oponente. A próxima Tecnologia Avançada que ele comprar custa +2 CC.",
+        "opcional": true,
+        "icone": "icone-vul.png"
       },
       {
-        "attr": "GRA",
-        "text": "O jogador à direita escolhe: paga 2 CC à reserva ou 1 CC a você."
+        "tipo": "GRA",
+        "texto": "O jogador à direita escolhe: paga 2 CC à reserva ou 1 CC a você.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Corvus-Prime",
-    "imagem": "corvus-prime.png",
+    "nome_anterior": null,
+    "imagem": "Corvus-Prime.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Transfira 1 CC de um oponente para você."
+        "tipo": "MAG",
+        "texto": "Transfira 1 CC de um oponente para você.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ELET",
-        "text": "A próxima ação de Investigar de outro jogador custa +1 CC."
+        "tipo": "ELET",
+        "texto": "A próxima ação de Investigar de outro jogador custa +1 CC.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       },
       {
-        "attr": "GRA",
-        "text": "Para qualquer jogador, a próxima Tecnologia Avançada custa +1 CC."
+        "tipo": "GRA",
+        "texto": "Para qualquer jogador, a próxima Tecnologia Avançada custa +1 CC.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Dai-Moros",
-    "imagem": "dai-moros.png",
+    "nome_anterior": null,
+    "imagem": "Dai-Moros.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Se houver um planeta H₂O adjacente a Dai-Moros, ganhe 1 CC."
+        "tipo": "MAG",
+        "texto": "Se houver um planeta H₂O adjacente a Dai-Moros, ganhe 1 CC.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Se houver um planeta VUL adjacente a Dai-Moros, ganhe 2 CC."
+        "tipo": "ROC",
+        "texto": "Se houver um planeta VUL adjacente a Dai-Moros, ganhe 2 CC.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "ELET",
-        "text": "Pague 1 CC: Mova Dai-Moros para qualquer posição no seu Arsenal Planetário."
+        "tipo": "ELET",
+        "texto": "Pague 1 CC: Mova Dai-Moros para qualquer posição no seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Debora-Y",
-    "imagem": "debora-y.png",
+    "nome_anterior": null,
+    "imagem": "Debora-Y.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Pague 3 CC: Compre o planeta do topo do baralho Nível 2. (Opcional)"
+        "tipo": "MAG",
+        "texto": "Pague 3 CC: Compre o planeta do topo do baralho Nível 2.",
+        "opcional": true,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Pague 1 CC: Compre o planeta no topo da pilha de descarte de Nível 1."
+        "tipo": "ROC",
+        "texto": "Pague 1 CC: Compre o planeta no topo da pilha de descarte de Nível 1.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "ELET",
-        "text": "Ative o efeito H₂O de outro planeta em seu Arsenal, exceto Nível 5."
+        "tipo": "ELET",
+        "texto": "Ative o efeito H₂O de outro planeta em seu Arsenal, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Hydra-4",
-    "imagem": "hydra-4.png",
+    "nome_anterior": null,
+    "imagem": "Hydra-4.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Pague 2 CC: Ganhe 1 PV. (Opcional)"
+        "tipo": "ZH",
+        "texto": "Pague 2 CC: Ganhe 1 PV.",
+        "opcional": true,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 2 CC se possuir ao menos 3 Planetas H₂O."
+        "tipo": "H₂O",
+        "texto": "Ganhe 2 CC se possuir ao menos 3 Planetas H₂O.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ELET",
-        "text": "Pague 1/2 CC: Escolha 1/2 Equipamentos para bloquear até sua próxima rodada."
+        "tipo": "ELET",
+        "texto": "Pague 1/2 CC: Escolha 1/2 Equipamentos para bloquear até sua próxima rodada.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 2,
-    "nome": "Lyra",
-    "imagem": "lyra.png",
+    "nome": "Lyra-VI",
+    "nome_anterior": "Lyra",
+    "imagem": "Lyra-VI.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 2 CC para o jogador com menos Créditos Científicos."
+        "tipo": "ATM",
+        "texto": "Pague 2 CC para o jogador com menos Créditos Científicos.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "ZH",
-        "text": "Ganhe 2 CC. Se este for o único ZH ativado nesta ação, ganhe +2 CC."
+        "tipo": "ZH",
+        "texto": "Ganhe 2 CC. Se este for o único ZH ativado nesta ação, ganhe +2 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ELET",
-        "text": "Ganhe 1 CC. Oponentes não podem afetar seu Arsenal Planetário até seu próximo turno."
+        "tipo": "ELET",
+        "texto": "Ganhe 1 CC. Oponentes não podem afetar seu Arsenal Planetário até seu próximo turno.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Nereon",
-    "imagem": "nereon.png",
+    "nome_anterior": null,
+    "imagem": "Nereon.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 2 CC: O próximo jogador não pode descobrir planetas por 1 rodada."
+        "tipo": "ATM",
+        "texto": "Pague 2 CC: O próximo jogador não pode descobrir planetas por 1 rodada.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Revele a carta no topo de qualquer pilha Nível 2+. Se possuir H₂O, ganhe 3 CC, senão, pague 1 CC."
+        "tipo": "H₂O",
+        "texto": "Revele a carta no topo de qualquer pilha Nível 2+. Se possuir H₂O, ganhe 3 CC, senão, pague 1 CC.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Ganhe 1 CC. Altere a posição de 1 planeta no Arsenal de um oponente."
+        "tipo": "GRA",
+        "texto": "Ganhe 1 CC. Altere a posição de 1 planeta no Arsenal de um oponente.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 2,
-    "nome": "Pegasi-51b",
-    "imagem": "pegasi-51b.png",
+    "nome": "Pegasi-R51",
+    "nome_anterior": "Pegasi-51b",
+    "imagem": "Pegasi-R51.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Se este for o primeiro planeta do seu Arsenal, ganhe 1 CC. Caso contrário, pague 2 CC."
+        "tipo": "MAG",
+        "texto": "Se este for o primeiro planeta do seu Arsenal, ganhe 1 CC. Caso contrário, pague 2 CC.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Pague 1 CC: Revele a carta do topo do Nível 2. Se for um planeta H₂O, adquira-o."
+        "tipo": "H₂O",
+        "texto": "Pague 1 CC: Revele a carta do topo do Nível 2. Se for um planeta H₂O, adquira-o.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "VUL",
-        "text": "Descarte 1 planeta adjacente. Ganhe CC igual ao seu Nível."
+        "tipo": "VUL",
+        "texto": "Descarte 1 planeta adjacente. Ganhe CC igual ao seu Nível.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 2,
-    "nome": "Perseus",
-    "imagem": "perseus.png",
+    "nome": "Perseus-K7",
+    "nome_anterior": "Perseus",
+    "imagem": "Perseus-K7.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Pague 1 CC: O próximo jogador não pode Investigar por 1 rodada."
+        "tipo": "ZH",
+        "texto": "Pague 1 CC: O próximo jogador não pode Investigar por 1 rodada.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ative o efeito MAG de outro planeta em seu Arsenal, exceto Nível 5."
+        "tipo": "ROC",
+        "texto": "Ative o efeito MAG de outro planeta em seu Arsenal, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "GRA",
-        "text": "Ao fim do turno, outro jogador embaralha seu Arsenal. Em seguida, reorganize-o na ordem das cartas viradas para cima."
+        "tipo": "GRA",
+        "texto": "Ao fim do turno, outro jogador embaralha seu Arsenal. Em seguida, reorganize-o na ordem das cartas viradas para cima.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Sylvia",
-    "imagem": "sylvia.png",
+    "nome_anterior": null,
+    "imagem": "Sylvia.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 2 CC para outro jogador: Adquira um de seus planetas Nível 1."
+        "tipo": "ATM",
+        "texto": "Pague 2 CC para outro jogador: Adquira um de seus planetas Nível 1.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 1 CC. +1 CC se houver um número par de planetas no seu Arsenal."
+        "tipo": "H₂O",
+        "texto": "Ganhe 1 CC. +1 CC se houver um número par de planetas no seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 1 CC. Troque a posição de 2 planetas no seu Arsenal Planetário."
+        "tipo": "ROC",
+        "texto": "Ganhe 1 CC. Troque a posição de 2 planetas no seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       }
     ]
   },
   {
     "nivel": 2,
-    "nome": "Vela-X",
-    "imagem": "vela-x.png",
+    "nome": "Vela-K9",
+    "nome_anterior": "Vela-X",
+    "imagem": "Vela-K9.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Revele a carta do topo do baralho Nível 1. Se for um planeta ATM, adquira-o."
+        "tipo": "ATM",
+        "texto": "Revele a carta do topo do baralho Nível 1. Se for um planeta ATM, adquira-o.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "O próximo planeta que você descobrir tem custo -2 CC."
+        "tipo": "H₂O",
+        "texto": "O próximo planeta que você descobrir tem custo -2 CC.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "VUL",
-        "text": "Descarte um planeta Nível 1 ou 2: Ganhe 3 CC. (Opcional)"
+        "tipo": "VUL",
+        "texto": "Descarte um planeta Nível 1 ou 2: Ganhe 3 CC.",
+        "opcional": true,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Villas-B",
-    "imagem": "villas-b.png",
+    "nome_anterior": null,
+    "imagem": "Villas-B.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Descarte o planeta à esquerda deste e compre um planeta do mesmo Nível."
+        "tipo": "ATM",
+        "texto": "Descarte o planeta à esquerda deste e compre um planeta do mesmo Nível.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "MAG",
-        "text": "Se esse é o primeiro planeta na ordem de seu Arsenal Planetário: Ganhe 2 CC."
+        "tipo": "MAG",
+        "texto": "Se esse é o primeiro planeta na ordem de seu Arsenal Planetário: Ganhe 2 CC.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "VUL",
-        "text": "Ganhe 1 CC. Mova esse planeta 1 espaço para a direita."
+        "tipo": "VUL",
+        "texto": "Ganhe 1 CC. Mova esse planeta 1 espaço para a direita.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Vulcanis",
-    "imagem": "vulcanis.png",
+    "nome_anterior": null,
+    "imagem": "Vulcanis.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Pague 1 CC: Ative o efeito VUL de outro planeta em seu Arsenal, exceto Nível 5."
+        "tipo": "MAG",
+        "texto": "Pague 1 CC: Ative o efeito VUL de outro planeta em seu Arsenal, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Pague 1 CC: Descarte 1 planeta Nível 1 de outro jogador. (Opcional)"
+        "tipo": "ROC",
+        "texto": "Pague 1 CC: Descarte 1 planeta Nível 1 de outro jogador.",
+        "opcional": true,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "VUL",
-        "text": "Ganhe 1 CC para cada planeta VUL analisado essa rodada."
+        "tipo": "VUL",
+        "texto": "Ganhe 1 CC para cada planeta VUL analisado essa rodada.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 2,
     "nome": "Zephyr-2",
-    "imagem": "zephyr-2.png",
+    "nome_anterior": null,
+    "imagem": "Zephyr-2.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 1 CC para cada outro planeta ATM que você analisou nesta rodada."
+        "tipo": "ATM",
+        "texto": "Ganhe 1 CC para cada outro planeta ATM que você analisou nesta rodada.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "ZH",
-        "text": "Pague 1 CC para cada outro planeta ZH que você analisou nesta rodada."
+        "tipo": "ZH",
+        "texto": "Pague 1 CC para cada outro planeta ZH que você analisou nesta rodada.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ELET",
-        "text": "Mova esse planeta até 3 espaços em seu Arsenal Planetário."
+        "tipo": "ELET",
+        "texto": "Mova esse planeta até 3 espaços em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 3,
-    "nome": "Aldebaran IV",
-    "imagem": "aldebaran-iv.png",
+    "nome": "Aldebaris-IV",
+    "nome_anterior": "Aldebaran IV",
+    "imagem": "Aldebaris-IV.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 2 CC. Seu Arsenal não pode ser afetado por oponentes até o seu próximo turno."
+        "tipo": "ATM",
+        "texto": "Ganhe 2 CC. Seu Arsenal não pode ser afetado por oponentes até o seu próximo turno.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "ZH",
-        "text": "Ganhe 1 CC para cada outro planeta de Nível 3+ que você possuir."
+        "tipo": "ZH",
+        "texto": "Ganhe 1 CC para cada outro planeta de Nível 3+ que você possuir.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "GRA",
-        "text": "Seu próximo planeta Nível 5 possui custo -1 CC."
+        "tipo": "GRA",
+        "texto": "Seu próximo planeta Nível 5 possui custo -1 CC.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 3,
-    "nome": "Antares-b",
-    "imagem": "antares-b.png",
+    "nome": "Antaris-B9",
+    "nome_anterior": "Antares-b",
+    "imagem": "Antaris-B9.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 1 CC para cada outro jogador: Ganhe 1 PV."
+        "tipo": "ATM",
+        "texto": "Pague 1 CC para cada outro jogador: Ganhe 1 PV.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Pague 1 CC: A próxima Tecnologia que você comprar custa -3 CC. (Opcional)"
+        "tipo": "H₂O",
+        "texto": "Pague 1 CC: A próxima Tecnologia que você comprar custa -3 CC.",
+        "opcional": true,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Compre uma Tecnologia Avançada do Mercado com custo -1 CC. (Opcional)"
+        "tipo": "GRA",
+        "texto": "Compre uma Tecnologia Avançada do Mercado com custo -1 CC.",
+        "opcional": true,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 3,
-    "nome": "Arcturus-7",
-    "imagem": "arcturus-7.png",
+    "nome": "Arcturon-VII",
+    "nome_anterior": "Arcturus-7",
+    "imagem": "Arcturon-VII.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 1 CC. Se você for o jogador com menos CC durante essa ativação, ganhe 1 PV."
+        "tipo": "ATM",
+        "texto": "Ganhe 1 CC. Se você for o jogador com menos CC durante essa ativação, ganhe 1 PV.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Pague 4 CC: Ganhe 2 PV. (Opcional)"
+        "tipo": "H₂O",
+        "texto": "Pague 4 CC: Ganhe 2 PV.",
+        "opcional": true,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "VUL",
-        "text": "Pague 3 CC: Descarte 1 planeta do Arsenal de qualquer jogador."
+        "tipo": "VUL",
+        "texto": "Pague 3 CC: Descarte 1 planeta do Arsenal de qualquer jogador.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 3,
     "nome": "Auralis",
-    "imagem": "auralis.png",
+    "nome_anterior": null,
+    "imagem": "Auralis.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Ganhe 2 CC se possuir pelo menos 2 planetas de Nível 1."
+        "tipo": "ZH",
+        "texto": "Ganhe 2 CC se possuir pelo menos 2 planetas de Nível 1.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Compre 2 planetas do baralho Nível 1. Escolha 1 para colocar em seu Arsenal e descarte o outro."
+        "tipo": "H₂O",
+        "texto": "Compre 2 planetas do baralho Nível 1. Escolha 1 para colocar em seu Arsenal e descarte o outro.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Pague 2 CC: Substitua 1 planeta Nível 1 do seu Arsenal pelo planeta do topo do Nível 4. (Opcional)"
+        "tipo": "GRA",
+        "texto": "Pague 2 CC: Substitua 1 planeta Nível 1 do seu Arsenal pelo planeta do topo do Nível 4.",
+        "opcional": true,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 3,
-    "nome": "Caelus-667C",
-    "imagem": "caelus-667c.png",
+    "nome": "Caelus-667K",
+    "nome_anterior": "Caelus-667C",
+    "imagem": "Caelus-667K.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 2 CC: Ative 2 efeitos de um planeta GRA em seu Arsenal Planetário, exceto Nível 5."
+        "tipo": "ATM",
+        "texto": "Pague 2 CC: Ative 2 efeitos de um planeta GRA em seu Arsenal Planetário, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Pague 1 CC: Descarte este planeta e compre o do topo do Nível 4. Se possuir H₂O, ative seu efeito."
+        "tipo": "H₂O",
+        "texto": "Pague 1 CC: Descarte este planeta e compre o do topo do Nível 4. Se possuir H₂O, ative seu efeito.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Duplique os ganhos da sua próxima Publicação Científica (Acumulável)"
-      }
-    ]
-  },
-  {
-    "nivel": 3,
-    "nome": "Castor-98",
-    "imagem": "castor-98.png",
-    "efeitos": [
-      {
-        "attr": "ZH",
-        "text": "Ganhe 1 CC para cada Tecnologia Avançada de custo 5+ disponível no Mercado."
-      },
-      {
-        "attr": "ROC",
-        "text": "Ganhe 2 CC. Substitua 1/2 Tecnologias do Mercado pelas 1/2 do topo do baralho."
-      },
-      {
-        "attr": "VUL",
-        "text": "Descarte uma Tecnologia Avançada para descartar um planeta de um oponente. (Opcional)"
+        "tipo": "GRA",
+        "texto": "Duplique os ganhos da sua próxima Publicação Científica (Acumulável)",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 3,
     "nome": "Cavendish-3",
-    "imagem": "cavendish-3.png",
+    "nome_anterior": null,
+    "imagem": "Cavendish-3.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Pague 3 CC: Ganhe 2 PV. (Opcional)"
+        "tipo": "ZH",
+        "texto": "Pague 3 CC: Ganhe 2 PV.",
+        "opcional": true,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Pague 1 CC: O próximo jogador deve lhe pagar 2 CC se quiser realizar uma Investigação."
+        "tipo": "H₂O",
+        "texto": "Pague 1 CC: O próximo jogador deve lhe pagar 2 CC se quiser realizar uma Investigação.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Ganhe 1 CC para cada outro planeta GRA no seu Arsenal."
+        "tipo": "GRA",
+        "texto": "Ganhe 1 CC para cada outro planeta GRA no seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 3,
     "nome": "Curie-b",
-    "imagem": "curie-b.png",
+    "nome_anterior": null,
+    "imagem": "Curie-b.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Pague 2 CC: Ative qualquer efeito de um planeta adjacente a este, exceto Nível 5."
+        "tipo": "MAG",
+        "texto": "Pague 2 CC: Ative qualquer efeito de um planeta adjacente a este, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Descarte 1 planeta do seu Arsenal. Ganhe 4 CC."
+        "tipo": "ROC",
+        "texto": "Descarte 1 planeta do seu Arsenal. Ganhe 4 CC.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "ELET",
-        "text": "Descarte 1 Tecnologia Avançada: Ganhe 2 PV ou 3 CC."
+        "tipo": "ELET",
+        "texto": "Descarte 1 Tecnologia Avançada: Ganhe 2 PV ou 3 CC.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 3,
     "nome": "Erebus",
-    "imagem": "erebus.png",
+    "nome_anterior": null,
+    "imagem": "Erebus.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 3 CC ao jogador com menos CC. Se você for esse jogador, ganhe 3 CC."
+        "tipo": "ATM",
+        "texto": "Pague 3 CC ao jogador com menos CC. Se você for esse jogador, ganhe 3 CC.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "VUL",
-        "text": "O jogador com mais CC perde 2 CC. O com menos, ganha 2."
+        "tipo": "VUL",
+        "texto": "O jogador com mais CC perde 2 CC. O com menos, ganha 2.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       },
       {
-        "attr": "ELET",
-        "text": "Ganhe CC igual ao nível do último planeta analisado por um oponente."
+        "tipo": "ELET",
+        "texto": "Ganhe CC igual ao nível do último planeta analisado por um oponente.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 3,
     "nome": "Kagimur-33a",
-    "imagem": "kagimur-33a.png",
+    "nome_anterior": null,
+    "imagem": "Kagimur-33a.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Receba 1 CC de cada jogador adjacente.\nCom 2 jogadores: receba apenas 1 CC."
+        "tipo": "ZH",
+        "texto": "Receba 1 CC de cada jogador adjacente.\nCom 2 jogadores: receba apenas 1 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "VUL",
-        "text": "Pague 2 CC: Descarte um planeta de Nível 3 ou inferior de um oponente. (Opcional)"
+        "tipo": "VUL",
+        "texto": "Pague 2 CC: Descarte um planeta de Nível 3 ou inferior de um oponente.",
+        "opcional": true,
+        "icone": "icone-vul.png"
       },
       {
-        "attr": "ELET",
-        "text": "Descarte outro planeta de seu Arsenal: Ganhe 2 PV."
+        "tipo": "ELET",
+        "texto": "Descarte outro planeta de seu Arsenal: Ganhe 2 PV.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 3,
-    "nome": "Neo Pollux",
-    "imagem": "neo-pollux.png",
+    "nome": "Kastor-98X",
+    "nome_anterior": "Castor-98",
+    "imagem": "Kastor-98X.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Todos os oponentes pagam 1 CC. Você ganha 1 CC."
+        "tipo": "ZH",
+        "texto": "Ganhe 1 CC para cada Tecnologia Avançada de custo 5+ disponível no Mercado.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "MAG",
-        "text": "Pague 1 CC: Mova Neo Pollux 1 espaço no Arsenal e ative qualquer efeito do planeta à sua esquerda, exceto Nível 5."
+        "tipo": "ROC",
+        "texto": "Ganhe 2 CC. Substitua 1/2 Tecnologias do Mercado pelas 1/2 do topo do baralho.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "VUL",
-        "text": "Pague 3 CC: Descarte qualquer planeta do Arsenal de um oponente. Ele recebe 3 CC."
+        "tipo": "VUL",
+        "texto": "Descarte uma Tecnologia Avançada para descartar um planeta de um oponente.",
+        "opcional": true,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 3,
     "nome": "Nikola-T",
-    "imagem": "nikola-t.png",
+    "nome_anterior": null,
+    "imagem": "Nikola-T.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Sua próxima Tecnologia Avançada custa -2 CC."
+        "tipo": "MAG",
+        "texto": "Sua próxima Tecnologia Avançada custa -2 CC.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 2 CC para cada Tecnologia Avançada que possuir."
+        "tipo": "ROC",
+        "texto": "Ganhe 2 CC para cada Tecnologia Avançada que possuir.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "ELET",
-        "text": " Mova Nikola-T para a última posição do seu Arsenal. Ganhe 1 CC para cada planeta ELET analisado essa rodada."
+        "tipo": "ELET",
+        "texto": "Mova Nikola-T para a última posição do seu Arsenal. Ganhe 1 CC para cada planeta ELET analisado essa rodada.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 3,
-    "nome": "Polaris-X",
-    "imagem": "polaris-x.png",
+    "nome": "Polara-X7",
+    "nome_anterior": "Polaris-X",
+    "imagem": "Polara-X7.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Reorganize seu Arsenal Planetário livremente ao final da rodada."
+        "tipo": "MAG",
+        "texto": "Reorganize seu Arsenal Planetário livremente ao final da rodada.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 2 CC. Até seu próximo turno, planetas adjacentes a Polaris-X não podem ser alvo de oponentes."
+        "tipo": "ROC",
+        "texto": "Ganhe 2 CC. Até seu próximo turno, planetas adjacentes a Polara-X7 não podem ser alvo de oponentes.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "ELET",
-        "text": "Pague 1 CC: Ative o efeito ROC de um planeta seu ou de outro jogador, exceto Nível 5."
+        "tipo": "ELET",
+        "texto": "Pague 1 CC: Ative o efeito ROC de um planeta seu ou de outro jogador, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-elet.png"
+      }
+    ]
+  },
+  {
+    "nivel": 3,
+    "nome": "Polluxis-N7",
+    "nome_anterior": "Neo Pollux",
+    "imagem": "Polluxis-N7.webp",
+    "efeitos": [
+      {
+        "tipo": "ZH",
+        "texto": "Todos os oponentes pagam 1 CC. Você ganha 1 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
+      },
+      {
+        "tipo": "MAG",
+        "texto": "Pague 1 CC: Mova Polluxis-N7 1 espaço no Arsenal e ative qualquer efeito do planeta à sua esquerda, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-mag.png"
+      },
+      {
+        "tipo": "VUL",
+        "texto": "Pague 3 CC: Descarte qualquer planeta do Arsenal de um oponente. Ele recebe 3 CC.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 3,
     "nome": "Sagan-4",
-    "imagem": "sagan-4.png",
+    "nome_anterior": null,
+    "imagem": "Sagan-4.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Ative o efeito GRA de outro planeta em seu Arsenal, exceto Nível 5."
+        "tipo": "ZH",
+        "texto": "Ative o efeito GRA de outro planeta em seu Arsenal, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ROC",
-        "text": "Descarte 3 planetas do seu Arsenal pelo planeta do topo de qualquer pilha do jogo. (Opcional)"
+        "tipo": "ROC",
+        "texto": "Descarte 3 planetas do seu Arsenal pelo planeta do topo de qualquer pilha do jogo.",
+        "opcional": true,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "GRA",
-        "text": "Pague 1 CC: Descarte 1 planeta Nível 1 do Arsenal de qualquer jogador."
+        "tipo": "GRA",
+        "texto": "Pague 1 CC: Descarte 1 planeta Nível 1 do Arsenal de qualquer jogador.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 3,
     "nome": "Tarkus",
-    "imagem": "tarkus.png",
+    "nome_anterior": null,
+    "imagem": "Tarkus.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 1 CC: Olhe os 3 planetas do topo de qualquer baralho Nível 2+ e devolva-os na ordem que desejar."
+        "tipo": "ATM",
+        "texto": "Pague 1 CC: Olhe os 3 planetas do topo de qualquer baralho Nível 2+ e devolva-os na ordem que desejar.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "MAG",
-        "text": "Pague, em CC, o custo do nível do planeta à esquerda de Tarkus para ativar um de seus efeitos."
+        "tipo": "MAG",
+        "texto": "Pague, em CC, o custo do nível do planeta à esquerda de Tarkus para ativar um de seus efeitos.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "VUL",
-        "text": "Descarte um planeta Nível 1: Receba 1 CC de cada oponente. (Opcional)"
+        "tipo": "VUL",
+        "texto": "Descarte um planeta Nível 1: Receba 1 CC de cada oponente.",
+        "opcional": true,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Balster-9",
-    "imagem": "balster-9.png",
+    "nome_anterior": null,
+    "imagem": "Balster-9.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Ganhe 2 CC. +1 CC para cada planeta que você descartou essa rodada."
+        "tipo": "ZH",
+        "texto": "Ganhe 2 CC. +1 CC para cada planeta que você descartou essa rodada.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ROC",
-        "text": "Pague 1 CC: Troque a posição de um planeta adjacente com qualquer outro planeta do seu Arsenal."
+        "tipo": "ROC",
+        "texto": "Pague 1 CC: Troque a posição de um planeta adjacente com qualquer outro planeta do seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "VUL",
-        "text": "Descarte este planeta. Ganhe 4 PV. Se houver planetas de Nível 1 adjacentes, eles também são descartados. (Opcional)"
+        "tipo": "VUL",
+        "texto": "Descarte este planeta. Ganhe 4 PV. Se houver planetas de Nível 1 adjacentes, eles também são descartados.",
+        "opcional": true,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Bernard-50a",
-    "imagem": "bernard-50a.png",
+    "nome_anterior": null,
+    "imagem": "Bernard-50a.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Pague 4 CC."
+        "tipo": "ATM",
+        "texto": "Pague 4 CC.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "ZH",
-        "text": "Pague 2 PV. Se não possuir, perca seu próximo turno."
+        "tipo": "ZH",
+        "texto": "Pague 2 PV. Se não possuir, perca seu próximo turno.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "GRA",
-        "text": "Troque Bernard-50a por um planeta de um oponente, exceto Nível 5. Mantenha as posições."
+        "tipo": "GRA",
+        "texto": "Troque Bernard-50a por um planeta de um oponente, exceto Nível 5. Mantenha as posições.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Crio-9",
-    "imagem": "crio-9.png",
+    "nome_anterior": null,
+    "imagem": "Crio-9.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Mova este planeta para o início do seu Arsenal. Após ativar este efeito, ignore custos/perdas de CC até o seu próximo turno."
+        "tipo": "ATM",
+        "texto": "Mova este planeta para o início do seu Arsenal. Após ativar este efeito, ignore custos/perdas de CC até o seu próximo turno.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 1 CC e escolha um planeta do próximo jogador. Ele não pode ser analisado nesta rodada."
+        "tipo": "H₂O",
+        "texto": "Ganhe 1 CC e escolha um planeta do próximo jogador. Ele não pode ser analisado nesta rodada.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ELET",
-        "text": "Se você possuir o 'Analisador de Exosfera', ganhe 1 PV e 1 CC."
+        "tipo": "ELET",
+        "texto": "Se você possuir o 'Analisador de Exosfera', ganhe 1 PV e 1 CC.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Edenia",
-    "imagem": "edenia.png",
+    "nome_anterior": null,
+    "imagem": "Edenia.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Ganhe 2 CC. +1 se possuir 3+ planetas ZH em seu Arsenal."
+        "tipo": "ZH",
+        "texto": "Ganhe 2 CC. +1 se possuir 3+ planetas ZH em seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ROC",
-        "text": "Pague 2 CC: Force um oponente a descartar 1 Tecnologia Avançada à escolha dele. (Opcional)"
+        "tipo": "ROC",
+        "texto": "Pague 2 CC: Force um oponente a descartar 1 Tecnologia Avançada à escolha dele.",
+        "opcional": true,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "VUL",
-        "text": "Pague 2 CC e descarte este planeta: Ganhe 3 PV."
+        "tipo": "VUL",
+        "texto": "Pague 2 CC e descarte este planeta: Ganhe 3 PV.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Einstar",
-    "imagem": "einstar.png",
+    "nome_anterior": null,
+    "imagem": "Einstar.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Pague 2 PV: Adquira gratuitamente uma Tecnologia Avançada do Mercado. (Opcional)"
+        "tipo": "MAG",
+        "texto": "Pague 2 PV: Adquira gratuitamente uma Tecnologia Avançada do Mercado.",
+        "opcional": true,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 2 CC. Se seu Arsenal for maior que o do oponente à direita, ganhe 1 PV."
+        "tipo": "ROC",
+        "texto": "Ganhe 2 CC. Se seu Arsenal for maior que o do oponente à direita, ganhe 1 PV.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "GRA",
-        "text": "Pague até 4 CC: Ganhe a mesma quantidade de PV. Você não pode pagar mais CC do que o número de planetas GRA em seu Arsenal Planetário."
+        "tipo": "GRA",
+        "texto": "Pague até 4 CC: Ganhe a mesma quantidade de PV. Você não pode pagar mais CC do que o número de planetas GRA em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Feynman-O",
-    "imagem": "feynman-o.png",
+    "nome_anterior": null,
+    "imagem": "Feynman-O.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 1 CC para cada 2 planetas ATM que possuir (incluindo Feynman-O)."
+        "tipo": "ATM",
+        "texto": "Ganhe 1 CC para cada 2 planetas ATM que possuir (incluindo Feynman-O).",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "MAG",
-        "text": "Mova este planeta para o início do seu Arsenal. Após ativar este efeito, ignore custos/perdas de PV até o seu próximo turno."
+        "tipo": "MAG",
+        "texto": "Mova este planeta para o início do seu Arsenal. Após ativar este efeito, ignore custos/perdas de PV até o seu próximo turno.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ELET",
-        "text": "O próximo planeta que você descartar por efeito de carta retorna ao final do seu Arsenal em vez de ser descartado."
+        "tipo": "ELET",
+        "texto": "O próximo planeta que você descartar por efeito de carta retorna ao final do seu Arsenal em vez de ser descartado.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Jalmir-D",
-    "imagem": "jalmir-d.png",
+    "nome_anterior": null,
+    "imagem": "Jalmir-D.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Ganhe 2 PV se possuir uma Tecnologia Avançada de custo 6+."
+        "tipo": "ZH",
+        "texto": "Ganhe 2 PV se possuir uma Tecnologia Avançada de custo 6+.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "MAG",
-        "text": "Ganhe 3 CC se houver um planeta MAG adjacente a Jalmir-D."
+        "tipo": "MAG",
+        "texto": "Ganhe 3 CC se houver um planeta MAG adjacente a Jalmir-D.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "ELET",
-        "text": "Pague 3 CC: Adquira gratuitamente uma Tecnologia Avançada do Mercado. Se ela tiver custo 5+, ganhe 1 PV. (Opcional)"
+        "tipo": "ELET",
+        "texto": "Pague 3 CC: Adquira gratuitamente uma Tecnologia Avançada do Mercado. Se ela tiver custo 5+, ganhe 1 PV.",
+        "opcional": true,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Odashima-5",
-    "imagem": "odashima-5.png",
+    "nome_anterior": null,
+    "imagem": "Odashima-5.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Ganhe 1 PV. Mova Odashima-5 até 3 espaços."
+        "tipo": "MAG",
+        "texto": "Ganhe 1 PV. Mova Odashima-5 até 3 espaços.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 2 CC. Troque a posição de Odashima-5 com qualquer outro planeta no seu Arsenal."
+        "tipo": "H₂O",
+        "texto": "Ganhe 2 CC. Troque a posição de Odashima-5 com qualquer outro planeta no seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ative 2 efeitos do planeta à esquerda de Odashima-5 em qualquer ordem, exceto Nível 5."
+        "tipo": "ROC",
+        "texto": "Ative 2 efeitos do planeta à esquerda de Odashima-5 em qualquer ordem, exceto Nível 5.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Riposati-46",
-    "imagem": "riposati-46.png",
+    "nome_anterior": null,
+    "imagem": "Riposati-46.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Revele os planetas no topo das pilhas Nível 2+. Ganhe 1 CC para cada ATM revelada."
+        "tipo": "ATM",
+        "texto": "Revele os planetas no topo das pilhas Nível 2+. Ganhe 1 CC para cada ATM revelada.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 2 CC. +1 se possuir outros 2 planetas H₂O em seu Arsenal."
+        "tipo": "H₂O",
+        "texto": "Ganhe 2 CC. +1 se possuir outros 2 planetas H₂O em seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Pague 2 CC: Todos os jogadores devem passar 1 planeta do seu Arsenal para o jogador à esquerda."
+        "tipo": "GRA",
+        "texto": "Pague 2 CC: Todos os jogadores devem passar 1 planeta do seu Arsenal para o jogador à esquerda.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 4,
     "nome": "Solaria",
-    "imagem": "solaria.png",
+    "nome_anterior": null,
+    "imagem": "Solaria.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Pague 2 CC. Mova este planeta para a última posição do seu Arsenal."
+        "tipo": "MAG",
+        "texto": "Pague 2 CC. Mova este planeta para a última posição do seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 3 CC se este planeta ocupar a última posição em seu Arsenal."
+        "tipo": "H₂O",
+        "texto": "Ganhe 3 CC se este planeta ocupar a última posição em seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Mova este planeta. Ganhe 1 CC para cada planeta GRA à direita dele."
+        "tipo": "GRA",
+        "texto": "Mova este planeta. Ganhe 1 CC para cada planeta GRA à direita dele.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Arcadia",
-    "imagem": "arcadia.png",
+    "nome_anterior": null,
+    "imagem": "Arcadia.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 1 PV para cada Tecnologia Avançada que você possui."
+        "tipo": "ATM",
+        "texto": "Ganhe 1 PV para cada Tecnologia Avançada que você possui.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "MAG",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta MAG em seu Arsenal Planetário."
+        "tipo": "MAG",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta MAG em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "VUL",
-        "text": "Descarte 1 Tecnologia Avançada: Ganhe 8 CC. (Opcional)"
+        "tipo": "VUL",
+        "texto": "Descarte 1 Tecnologia Avançada: Ganhe 8 CC.",
+        "opcional": true,
+        "icone": "icone-vul.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Gaia-II",
-    "imagem": "gaia-ii.png",
+    "nome_anterior": null,
+    "imagem": "Gaia-II.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Todos os jogadores, exceto você, perdem 2 CC."
+        "tipo": "ZH",
+        "texto": "Todos os jogadores, exceto você, perdem 2 CC.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 1 CC para cada outro planeta H₂O que você possui."
+        "tipo": "H₂O",
+        "texto": "Ganhe 1 CC para cada outro planeta H₂O que você possui.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ROC",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta ROC em seu Arsenal Planetário."
+        "tipo": "ROC",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta ROC em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Kepler-23n",
-    "imagem": "kepler-23n.png",
+    "nome_anterior": null,
+    "imagem": "Kepler-23n.webp",
     "efeitos": [
       {
-        "attr": "MAG",
-        "text": "Ganhe 1 CC. Se possuir 6 ou mais planetas, ganhe 3."
+        "tipo": "MAG",
+        "texto": "Ganhe 1 CC. Se possuir 6 ou mais planetas, ganhe 3.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Ganhe 2 PV. Se possuir 6 ou mais planetas, ganhe +2 PV."
+        "tipo": "H₂O",
+        "texto": "Ganhe 2 PV. Se possuir 6 ou mais planetas, ganhe +2 PV.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "GRA",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta GRA em seu Arsenal Planetário."
+        "tipo": "GRA",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta GRA em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Maxwell-c",
-    "imagem": "maxwell-c.png",
+    "nome_anterior": null,
+    "imagem": "Maxwell-c.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Pague 8 CC: Ganhe 6 PV. (Opcional)"
+        "tipo": "ZH",
+        "texto": "Pague 8 CC: Ganhe 6 PV.",
+        "opcional": true,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 2 PV. Se o jogador à sua direita tiver mais CC, ganhe +1 PV."
+        "tipo": "ROC",
+        "texto": "Ganhe 2 PV. Se o jogador à sua direita tiver mais CC, ganhe +1 PV.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "ELET",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta ELET em seu Arsenal Planetário."
+        "tipo": "ELET",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta ELET em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Mordarion",
-    "imagem": "mordarion.png",
+    "nome_anterior": null,
+    "imagem": "Mordarion.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Ganhe 1 PV para cada planeta Nível 1-2 que você descartar de seu Arsenal."
+        "tipo": "ATM",
+        "texto": "Ganhe 1 PV para cada planeta Nível 1-2 que você descartar de seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "VUL",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta VUL em seu Arsenal Planetário."
+        "tipo": "VUL",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta VUL em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-vul.png"
       },
       {
-        "attr": "ELET",
-        "text": "Ganhe 2 PV. Se possuir 6 ou menos planetas, ganhe +2 PV."
+        "tipo": "ELET",
+        "texto": "Ganhe 2 PV. Se possuir 6 ou menos planetas, ganhe +2 PV.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Mos-Akira",
-    "imagem": "mos-akira.png",
+    "nome_anterior": null,
+    "imagem": "Mos-Akira.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada 2 CC que possuir ao final do jogo."
+        "tipo": "ZH",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada 2 CC que possuir ao final do jogo.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "ELET",
-        "text": "Ganhe 3 CC e mova Mos-Akira no seu Arsenal."
+        "tipo": "ELET",
+        "texto": "Ganhe 3 CC e mova Mos-Akira no seu Arsenal.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       },
       {
-        "attr": "GRA",
-        "text": "Dobre o próximo ganho de PV (qualquer fonte), mesmo que não seja nesta rodada."
+        "tipo": "GRA",
+        "texto": "Dobre o próximo ganho de PV (qualquer fonte), mesmo que não seja nesta rodada.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Novaterra",
-    "imagem": "novaterra.png",
+    "nome_anterior": null,
+    "imagem": "Novaterra.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta ATM em seu Arsenal Planetário."
+        "tipo": "ATM",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta ATM em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "H₂O",
-        "text": "Pague 2 CC: Ganhe 3 PV (Se for o único jogador com um planeta Nível 5, pague 4 CC). (Opcional)"
+        "tipo": "H₂O",
+        "texto": "Pague 2 CC: Ganhe 3 PV (Se for o único jogador com um planeta Nível 5, pague 4 CC).",
+        "opcional": true,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 1 PV. Oponentes não podem afetar seu Arsenal Planetário até seu turno daqui a 2 rodadas."
+        "tipo": "ROC",
+        "texto": "Ganhe 1 PV. Oponentes não podem afetar seu Arsenal Planetário até seu turno daqui a 2 rodadas.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Oceania Prime",
-    "imagem": "oceania-prime.png",
+    "nome_anterior": null,
+    "imagem": "Oceania Prime.webp",
     "efeitos": [
       {
-        "attr": "H₂O",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta H₂0 em seu Arsenal Planetário."
+        "tipo": "H₂O",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta H₂0 em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-h2o.png"
       },
       {
-        "attr": "ROC",
-        "text": "Ganhe 3 CC ou  2 PV."
+        "tipo": "ROC",
+        "texto": "Ganhe 3 CC ou  2 PV.",
+        "opcional": false,
+        "icone": "icone-roc.png"
       },
       {
-        "attr": "GRA",
-        "text": "Pague até 4 CC para receber a mesma quantidade em PV."
+        "tipo": "GRA",
+        "texto": "Pague até 4 CC para receber a mesma quantidade em PV.",
+        "opcional": false,
+        "icone": "icone-gra.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Viridion",
-    "imagem": "viridion.png",
+    "nome_anterior": null,
+    "imagem": "Viridion.webp",
     "efeitos": [
       {
-        "attr": "ATM",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada 3 planetas em seu Arsenal Planetário."
+        "tipo": "ATM",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada 3 planetas em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-atm.png"
       },
       {
-        "attr": "VUL",
-        "text": "Pague 3 CC: Descarte qualquer Tecnologia Avançada de um oponente. (Opcional)"
+        "tipo": "VUL",
+        "texto": "Pague 3 CC: Descarte qualquer Tecnologia Avançada de um oponente.",
+        "opcional": true,
+        "icone": "icone-vul.png"
       },
       {
-        "attr": "ELET",
-        "text": "Ganhe 1 CC para cada 2 planetas que você possui."
+        "tipo": "ELET",
+        "texto": "Ganhe 1 CC para cada 2 planetas que você possui.",
+        "opcional": false,
+        "icone": "icone-elet.png"
       }
     ]
   },
   {
     "nivel": 5,
     "nome": "Voltrum",
-    "imagem": "voltrum.png",
+    "nome_anterior": null,
+    "imagem": "Voltrum.webp",
     "efeitos": [
       {
-        "attr": "ZH",
-        "text": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta ZH em seu Arsenal Planetário."
+        "tipo": "ZH",
+        "texto": "Efeito de fim de jogo: Ganhe 1 PV para cada planeta ZH em seu Arsenal Planetário.",
+        "opcional": false,
+        "icone": "icone-zh.png"
       },
       {
-        "attr": "MAG",
-        "text": "Transfira 2 CC de outro jogador para você."
+        "tipo": "MAG",
+        "texto": "Transfira 2 CC de outro jogador para você.",
+        "opcional": false,
+        "icone": "icone-mag.png"
       },
       {
-        "attr": "GRA",
-        "text": "Pague 1 CC: Force um oponente a descartar 1 planeta de Nível 3+ à escolha dele. (Opcional)"
+        "tipo": "GRA",
+        "texto": "Pague 1 CC: Force um oponente a descartar 1 planeta de Nível 3+ à escolha dele.",
+        "opcional": true,
+        "icone": "icone-gra.png"
       }
     ]
   }
 ];
 
-const roman = {1:"I",2:"II",3:"III",4:"IV",5:"V"};
-let currentLevel = 1;
-let currentPlanets = [];
-let currentIndex = 0;
+const ROMANOS = {1:"I",2:"II",3:"III",4:"IV",5:"V"};
+let nivelAtual = 1;
+let listaAtual = [];
+let indiceAtual = 0;
 
-function countLevel(level){
-  return planetas.filter(p => p.nivel === level).length;
-}
+const homeScreen = document.getElementById("homeScreen");
+const listScreen = document.getElementById("listScreen");
+const planetScreen = document.getElementById("planetScreen");
 
-function renderHome(){
-  const grid = document.getElementById("levelGrid");
-  grid.innerHTML = "";
-  for(let level=1; level<=5; level++){
-    const b = document.createElement("button");
-    b.className = "level-btn";
-    b.onclick = () => openLevel(level);
-    b.innerHTML = `<span class="level-name">NÍVEL ${roman[level]}</span>
-                   <span class="level-count">${countLevel(level)} planetas</span>`;
-    grid.appendChild(b);
-  }
-}
-
-function showOnly(id){
-  ["home","listScreen","detailScreen"].forEach(x =>
-    document.getElementById(x).classList.toggle("oculto", x !== id)
-  );
-  window.scrollTo(0,0);
-}
-
-function showHome(){
-  document.getElementById("search").value = "";
-  showOnly("home");
-}
-
-function openLevel(level){
-  currentLevel = level;
-  currentPlanets = planetas
-    .filter(p => p.nivel === level)
-    .sort((a,b) => a.nome.localeCompare(b.nome,"pt-BR"));
-  document.getElementById("listTitle").textContent = `Nível ${roman[level]}`;
-  document.getElementById("search").value = "";
-  renderList();
-  showOnly("listScreen");
-}
-
-function renderList(){
-  const q = document.getElementById("search").value.trim().toLocaleLowerCase("pt-BR");
-  const area = document.getElementById("planetList");
-  const filtered = currentPlanets.filter(p => p.nome.toLocaleLowerCase("pt-BR").includes(q));
-  area.innerHTML = "";
-  if(!filtered.length){
-    area.innerHTML = `<div class="empty">Nenhum planeta encontrado.</div>`;
-    return;
-  }
-  filtered.forEach(p => {
-    const originalIndex = currentPlanets.findIndex(x => x.nome === p.nome);
-    const b = document.createElement("button");
-    b.className = "planet-row";
-    b.onclick = () => openPlanet(originalIndex);
-    b.innerHTML = `<img loading="lazy" src="${p.imagem}" alt="">
-                   <div><strong>${escapeHtml(p.nome)}</strong>
-                   <span>Nível ${roman[p.nivel]} · ${p.efeitos.length} efeitos</span></div>`;
-    area.appendChild(b);
-  });
-}
-
-function openPlanet(index){
-  currentIndex = index;
-  renderPlanet();
-  showOnly("detailScreen");
-}
-
-function renderPlanet(){
-  const p = currentPlanets[currentIndex];
-  const img = document.getElementById("cardImage");
-  img.src = p.imagem;
-  img.alt = `Carta do planeta ${p.nome}`;
-  document.getElementById("planetName").textContent = p.nome;
-  document.getElementById("planetLevel").textContent = `Nível ${roman[p.nivel]}`;
-  document.getElementById("counter").textContent = `${currentIndex+1} / ${currentPlanets.length}`;
-
-  const effects = document.getElementById("effects");
-  effects.innerHTML = "";
-  p.efeitos.forEach(e => {
-    const div = document.createElement("div");
-    div.className = "effect";
-    let txt = escapeHtml(e.text).replace(/\n/g,"<br>");
-    txt = txt.replace(/\(Opcional\)/gi,'<span class="optional">(Opcional)</span>');
-    div.innerHTML = `<span class="effect-head">${escapeHtml(e.attr)}</span>${txt}`;
-    effects.appendChild(div);
-  });
-}
-
-function previousPlanet(){
-  currentIndex = (currentIndex - 1 + currentPlanets.length) % currentPlanets.length;
-  renderPlanet();
-  window.scrollTo(0,0);
-}
-
-function nextPlanet(){
-  currentIndex = (currentIndex + 1) % currentPlanets.length;
-  renderPlanet();
-  window.scrollTo(0,0);
-}
-
-function backToList(){
-  renderList();
-  showOnly("listScreen");
-}
-
-function escapeHtml(value){
-  return String(value)
+function escapeHtml(s) {
+  return String(s)
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -1736,24 +2340,174 @@ function escapeHtml(value){
     .replaceAll("'","&#039;");
 }
 
-let touchStartX = 0;
-let touchStartY = 0;
-const swipeArea = document.getElementById("swipeArea");
-swipeArea.addEventListener("touchstart", e => {
-  const t = e.changedTouches[0];
-  touchStartX = t.screenX;
-  touchStartY = t.screenY;
-}, {passive:true});
-swipeArea.addEventListener("touchend", e => {
-  const t = e.changedTouches[0];
-  const dx = t.screenX - touchStartX;
-  const dy = t.screenY - touchStartY;
-  if(Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)){
-    dx < 0 ? nextPlanet() : previousPlanet();
+function showOnly(el) {
+  homeScreen.style.display = "none";
+  listScreen.classList.remove("active");
+  planetScreen.classList.remove("active");
+
+  if (el === homeScreen) homeScreen.style.display = "block";
+  else el.classList.add("active");
+
+  window.scrollTo({top:0, behavior:"instant"});
+}
+
+function buildLevels() {
+  const grid = document.getElementById("levelGrid");
+  grid.innerHTML = "";
+
+  for (let n=1; n<=5; n++) {
+    const count = PLANETAS.filter(p => p.nivel === n).length;
+    const b = document.createElement("button");
+    b.className = "level-card";
+    b.innerHTML = `
+      <span class="level-roman">${ROMANOS[n]}</span>
+      <span class="level-label">Nível ${ROMANOS[n]}</span>
+      <span class="level-count">${count} planetas</span>
+    `;
+    b.onclick = () => openLevel(n);
+    grid.appendChild(b);
   }
+}
+
+function openLevel(n) {
+  nivelAtual = n;
+  listaAtual = PLANETAS
+    .filter(p => p.nivel === n)
+    .sort((a,b) => a.nome.localeCompare(b.nome, "pt-BR"));
+
+  document.getElementById("listTitle").textContent = `Nível ${ROMANOS[n]}`;
+  document.getElementById("searchInput").value = "";
+  renderList(listaAtual);
+  showOnly(listScreen);
+}
+
+function renderList(items) {
+  const list = document.getElementById("planetList");
+  list.innerHTML = "";
+
+  items.forEach(p => {
+    const originalIndex = listaAtual.findIndex(x => x.nome === p.nome);
+    const b = document.createElement("button");
+    b.className = "planet-button";
+    b.innerHTML = `
+      <strong>${escapeHtml(p.nome)}</strong>
+      <small>${p.efeitos.length} efeito${p.efeitos.length === 1 ? "" : "s"}</small>
+    `;
+    b.onclick = () => openPlanet(originalIndex);
+    list.appendChild(b);
+  });
+
+  if (!items.length) {
+    list.innerHTML = `<div class="no-effects">Nenhum planeta encontrado.</div>`;
+  }
+}
+
+function openPlanet(index) {
+  indiceAtual = index;
+  renderPlanet();
+  showOnly(planetScreen);
+}
+
+function renderPlanet() {
+  const p = listaAtual[indiceAtual];
+
+  document.getElementById("planetName").textContent = p.nome;
+  document.getElementById("planetTopTitle").textContent = p.nome;
+  document.getElementById("planetLevel").textContent = `Nível ${ROMANOS[p.nivel]}`;
+
+  const img = document.getElementById("cardImage");
+  img.src = p.imagem;
+  img.alt = `Carta do planeta ${p.nome}`;
+
+  const effects = document.getElementById("effects");
+  effects.innerHTML = "";
+
+  if (!p.efeitos.length) {
+    effects.innerHTML = `<div class="no-effects">Esta carta não possui efeitos cadastrados.</div>`;
+  } else {
+    p.efeitos.forEach(e => {
+      const div = document.createElement("div");
+      div.className = "effect";
+
+      const optional = e.opcional
+        ? `<img class="optional-icon" src="icone-opcional.png" alt="Efeito opcional" title="Efeito opcional">`
+        : "";
+
+      div.innerHTML = `
+        <div class="effect-icon-wrap">
+          <img class="effect-icon" src="${e.icone}" alt="${escapeHtml(e.tipo)}">
+          <span class="effect-code">${escapeHtml(e.tipo)}</span>
+        </div>
+        <div class="effect-text">${escapeHtml(e.texto).replaceAll("\n","<br>")}${optional}</div>
+      `;
+      effects.appendChild(div);
+    });
+  }
+
+  document.getElementById("counter").textContent =
+    `${indiceAtual + 1} / ${listaAtual.length}`;
+
+  // Preload only the neighboring high-resolution cards for smooth swiping.
+  for (const offset of [-1, 1]) {
+    const i = (indiceAtual + offset + listaAtual.length) % listaAtual.length;
+    const pre = new Image();
+    pre.src = listaAtual[i].imagem;
+  }
+}
+
+function nextPlanet() {
+  if (!listaAtual.length) return;
+  indiceAtual = (indiceAtual + 1) % listaAtual.length;
+  renderPlanet();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function previousPlanet() {
+  if (!listaAtual.length) return;
+  indiceAtual = (indiceAtual - 1 + listaAtual.length) % listaAtual.length;
+  renderPlanet();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function showHome() {
+  showOnly(homeScreen);
+}
+
+function showList() {
+  showOnly(listScreen);
+}
+
+document.getElementById("searchInput").addEventListener("input", (ev) => {
+  const q = ev.target.value.trim().toLocaleLowerCase("pt-BR");
+  const filtered = !q ? listaAtual : listaAtual.filter(p =>
+    p.nome.toLocaleLowerCase("pt-BR").includes(q)
+  );
+  renderList(filtered);
+});
+
+// Swipe
+let touchStartX = 0;
+const cardShell = document.getElementById("cardShell");
+
+cardShell.addEventListener("touchstart", (e) => {
+  touchStartX = e.changedTouches[0].clientX;
 }, {passive:true});
 
-renderHome();
+cardShell.addEventListener("touchend", (e) => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (dx < -55) nextPlanet();
+  if (dx > 55) previousPlanet();
+}, {passive:true});
+
+// Desktop keyboard navigation
+document.addEventListener("keydown", (e) => {
+  if (!planetScreen.classList.contains("active")) return;
+  if (e.key === "ArrowRight") nextPlanet();
+  if (e.key === "ArrowLeft") previousPlanet();
+});
+
+buildLevels();
+showHome();
 </script>
 </body>
 </html>
