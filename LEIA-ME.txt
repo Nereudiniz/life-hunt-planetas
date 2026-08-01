@@ -1,0 +1,29 @@
+LIFE HUNT — SITE PLANETÁRIO
+
+COMO PUBLICAR NO GITHUB PAGES
+
+1. Extraia este ZIP no seu computador.
+2. Abra o repositório do Life Hunt no GitHub.
+3. Apague/substitua o index.html antigo, se necessário.
+4. Clique em Add file > Upload files.
+5. Selecione TODOS os arquivos desta pasta:
+   - index.html
+   - cover.jpg
+   - todos os arquivos .png dos planetas
+6. Clique em Commit changes.
+7. Aguarde o GitHub Pages atualizar e recarregue o mesmo link.
+
+IMPORTANTE:
+- Mantenha os arquivos no mesmo nível/pasta do index.html.
+- Não renomeie as imagens sem também alterar o nome correspondente no index.html.
+- O QR Code continua o mesmo porque a URL do GitHub Pages não muda.
+
+O site contém:
+- Tela inicial no estilo visual do Life Hunt
+- Níveis I a V
+- 70 planetas em ordem alfabética
+- Imagem real da carta
+- Efeitos logo abaixo
+- Busca por nome
+- Swipe esquerda/direita no celular
+- Botões Anterior/Próximo
