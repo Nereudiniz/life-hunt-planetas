@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Life Hunt - Planetas</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: #07131f;
+        color: white;
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+    }
+
+    header {
+        text-align: center;
+        padding: 30px 20px 20px;
+    }
+
+    h1 {
+        margin: 0;
+        letter-spacing: 8px;
+        font-size: 32px;
+    }
+
+    .subtitulo {
+        color: #66d9ff;
+        margin-top: 8px;
+        letter-spacing: 3px;
+    }
+
+    .container {
+        width: 92%;
+        max-width: 600px;
+        margin: auto;
+        padding-bottom: 40px;
+    }
+
+    .nivel {
+        width: 100%;
+        padding: 22px;
+        margin: 10px 0;
+        border-radius: 12px;
+        border: 1px solid #2887a8;
+        background: #10283a;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .nivel:active {
+        transform: scale(0.98);
+    }
+
+    .planeta-lista {
+        width: 100%;
+        padding: 18px;
+        margin: 8px 0;
+        border: 1px solid #24465c;
+        border-radius: 10px;
+        background: #0d2232;
+        color: white;
+        font-size: 18px;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .voltar {
+        border: none;
+        background: transparent;
+        color: #66d9ff;
+        font-size: 17px;
+        padding: 15px 0;
+        cursor: pointer;
+    }
+
+    .card {
+        background: #0d2232;
+        border: 1px solid #2887a8;
+        border-radius: 18px;
+        padding: 25px;
+        min-height: 420px;
+        touch-action: pan-y;
+    }
+
+    .card h2 {
+        text-align: center;
+        font-size: 28px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .card .nivel-planeta {
+        text-align: center;
+        color: #66d9ff;
+        margin-bottom: 30px;
+    }
+
+    .efeito {
+        background: #102b3d;
+        border-radius: 10px;
+        padding: 14px;
+        margin: 12px 0;
+        line-height: 1.5;
+    }
+
+    .efeito strong {
+        color: #70dcff;
+    }
+
+    .navegacao {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .navegacao button {
+        padding: 12px 18px;
+        background: #164762;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #contador {
+        color: #9bc8da;
+    }
+
+    .dica {
+        text-align: center;
+        color: #769aaa;
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .oculto {
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>LIFE HUNT</h1>
+    <div class="subtitulo">BANCO PLANETÁRIO</div>
+</header>
+
+<div class="container">
+
+    <!-- TELA INICIAL -->
+    <div id="telaNiveis">
+
+        <button class="nivel" onclick="abrirNivel(1)">
+            NÍVEL I
+        </button>
+
+        <button class="nivel" onclick="abrirNivel(2)">
+            NÍVEL II
+        </button>
+
+        <button class="nivel" onclick="abrirNivel(3)">
+            NÍVEL III
+        </button>
+
+        <button class="nivel" onclick="abrirNivel(4)">
+            NÍVEL IV
+        </button>
+
+        <button class="nivel" onclick="abrirNivel(5)">
+            NÍVEL V
+        </button>
+
+    </div>
+
+
+    <!-- LISTA DE PLANETAS -->
+    <div id="telaLista" class="oculto">
+
+        <button class="voltar" onclick="voltarInicio()">
+            ← Voltar aos níveis
+        </button>
+
+        <h2 id="tituloNivel"></h2>
+
+        <div id="listaPlanetas"></div>
+
+    </div>
+
+
+    <!-- PLANETA -->
+    <div id="telaPlaneta" class="oculto">
+
+        <button class="voltar" onclick="voltarLista()">
+            ← Lista de planetas
+        </button>
+
+        <div id="cardPlaneta" class="card">
+
+            <h2 id="nomePlaneta"></h2>
+
+            <div
+                id="nivelPlaneta"
+                class="nivel-planeta">
+            </div>
+
+            <div id="efeitos"></div>
+
+        </div>
+
+        <div class="navegacao">
+
+            <button onclick="anterior()">
+                ←
+            </button>
+
+            <span id="contador"></span>
+
+            <button onclick="proximo()">
+                →
+            </button>
+
+        </div>
+
+        <div class="dica">
+            Você também pode deslizar para os lados
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+=================================================
+PLANETAS
+
+É SOMENTE ESTA PARTE QUE VOCÊ PRECISA EDITAR.
+=================================================
+*/
+
+const planetas = [
+
+    {
+        nivel: 1,
+        nome: "Aquorys",
+        efeitos: [
+            "ATM: Ganhe 1 CC.",
+            "H₂O: Ganhe 1 CC. +1 se não possuir um planeta VUL em seu Arsenal Planetário.",
+            "ELET: Ganhe 1 CC para cada 2 planetas H₂O em seu Arsenal."
+        ]
+    },
+
+    {
+        nivel: 1,
+        nome: "Exemplo B",
+        efeitos: [
+            "ROC: Pague 2 CC: Ganhe 1 PV.",
+            "GRA: Ganhe 1 CC."
+        ]
+    },
+
+    {
+        nivel: 2,
+        nome: "Planeta Nível II",
+        efeitos: [
+            "ATM: Coloque aqui o efeito.",
+            "MAG: Coloque aqui o efeito."
+        ]
+    },
+
+    {
+        nivel: 3,
+        nome: "Planeta Nível III",
+        efeitos: [
+            "H₂O: Coloque aqui o efeito."
+        ]
+    },
+
+    {
+        nivel: 4,
+        nome: "Planeta Nível IV",
+        efeitos: [
+            "VUL: Coloque aqui o efeito."
+        ]
+    },
+
+    {
+        nivel: 5,
+        nome: "Planeta Nível V",
+        efeitos: [
+            "ELET: Coloque aqui o efeito."
+        ]
+    }
+
+];
+
+
+/*
+=================================================
+DAQUI PARA BAIXO NÃO PRECISA MEXER
+=================================================
+*/
+
+let nivelAtual = 1;
+let planetasNivel = [];
+let indiceAtual = 0;
+
+
+function abrirNivel(nivel) {
+
+    nivelAtual = nivel;
+
+    planetasNivel = planetas
+        .filter(p => p.nivel === nivel)
+        .sort((a,b) =>
+            a.nome.localeCompare(
+                b.nome,
+                "pt-BR"
+            )
+        );
+
+    document.getElementById("telaNiveis")
+        .classList.add("oculto");
+
+    document.getElementById("telaPlaneta")
+        .classList.add("oculto");
+
+    document.getElementById("telaLista")
+        .classList.remove("oculto");
+
+    document.getElementById("tituloNivel")
+        .innerText = "Nível " + romano(nivel);
+
+    const lista =
+        document.getElementById("listaPlanetas");
+
+    lista.innerHTML = "";
+
+    planetasNivel.forEach((planeta, indice) => {
+
+        const botao =
+            document.createElement("button");
+
+        botao.className = "planeta-lista";
+
+        botao.innerText = planeta.nome;
+
+        botao.onclick = () =>
+            abrirPlaneta(indice);
+
+        lista.appendChild(botao);
+
+    });
+
+}
+
+
+function abrirPlaneta(indice) {
+
+    indiceAtual = indice;
+
+    document.getElementById("telaLista")
+        .classList.add("oculto");
+
+    document.getElementById("telaPlaneta")
+        .classList.remove("oculto");
+
+    mostrarPlaneta();
+
+}
+
+
+function mostrarPlaneta() {
+
+    const planeta =
+        planetasNivel[indiceAtual];
+
+    document.getElementById("nomePlaneta")
+        .innerText = planeta.nome;
+
+    document.getElementById("nivelPlaneta")
+        .innerText =
+        "Nível " + romano(planeta.nivel);
+
+    const area =
+        document.getElementById("efeitos");
+
+    area.innerHTML = "";
+
+    planeta.efeitos.forEach(texto => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "efeito";
+
+        const partes =
+            texto.split(":");
+
+        if (partes.length > 1) {
+
+            div.innerHTML =
+                "<strong>" +
+                partes[0] +
+                ":</strong>" +
+                partes.slice(1).join(":");
+
+        } else {
+
+            div.innerText = texto;
+
+        }
+
+        area.appendChild(div);
+
+    });
+
+    document.getElementById("contador")
+        .innerText =
+        (indiceAtual + 1) +
+        " / " +
+        planetasNivel.length;
+
+}
+
+
+function proximo() {
+
+    indiceAtual++;
+
+    if (
+        indiceAtual >=
+        planetasNivel.length
+    ) {
+        indiceAtual = 0;
+    }
+
+    mostrarPlaneta();
+
+}
+
+
+function anterior() {
+
+    indiceAtual--;
+
+    if (indiceAtual < 0) {
+        indiceAtual =
+            planetasNivel.length - 1;
+    }
+
+    mostrarPlaneta();
+
+}
+
+
+function voltarLista() {
+
+    document.getElementById("telaPlaneta")
+        .classList.add("oculto");
+
+    document.getElementById("telaLista")
+        .classList.remove("oculto");
+
+}
+
+
+function voltarInicio() {
+
+    document.getElementById("telaLista")
+        .classList.add("oculto");
+
+    document.getElementById("telaNiveis")
+        .classList.remove("oculto");
+
+}
+
+
+function romano(numero) {
+
+    const valores = {
+        1:"I",
+        2:"II",
+        3:"III",
+        4:"IV",
+        5:"V"
+    };
+
+    return valores[numero];
+
+}
+
+
+/*
+=================================================
+DESLIZAR PARA O LADO
+=================================================
+*/
+
+let inicioX = 0;
+let fimX = 0;
+
+const card =
+    document.getElementById("cardPlaneta");
+
+card.addEventListener(
+    "touchstart",
+    function(evento) {
+
+        inicioX =
+            evento.changedTouches[0]
+            .screenX;
+
+    }
+);
+
+card.addEventListener(
+    "touchend",
+    function(evento) {
+
+        fimX =
+            evento.changedTouches[0]
+            .screenX;
+
+        const distancia =
+            fimX - inicioX;
+
+        if (distancia < -50) {
+            proximo();
+        }
+
+        if (distancia > 50) {
+            anterior();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
