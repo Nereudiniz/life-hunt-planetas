@@ -2390,7 +2390,6 @@ function renderList(items) {
     b.className = "planet-button";
     b.innerHTML = `
       <strong>${escapeHtml(p.nome)}</strong>
-      <small>${p.efeitos.length} efeito${p.efeitos.length === 1 ? "" : "s"}</small>
     `;
     b.onclick = () => openPlanet(originalIndex);
     list.appendChild(b);
