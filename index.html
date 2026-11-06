@@ -412,6 +412,295 @@ button { -webkit-tap-highlight-color: transparent; }
   margin-top: 10px;
 }
 
+/* Arsenal Planetário — componentes integrados à identidade visual do catálogo */
+.home-actions {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto 24px;
+}
+
+.arsenal-home-btn,
+.planet-arsenal-btn,
+.arsenal-clear-btn,
+.arsenal-move-btn,
+.arsenal-remove-btn,
+.arsenal-empty-btn {
+  appearance: none;
+  border: 1px solid rgba(67,230,255,.34);
+  background: linear-gradient(135deg, rgba(10,48,65,.96), rgba(4,20,31,.96));
+  color: var(--cyan2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.arsenal-home-btn:hover,
+.planet-arsenal-btn:hover:not(:disabled),
+.arsenal-clear-btn:hover,
+.arsenal-move-btn:hover:not(:disabled),
+.arsenal-remove-btn:hover,
+.arsenal-empty-btn:hover {
+  border-color: rgba(86,237,255,.82);
+  transform: translateY(-1px);
+}
+
+.arsenal-home-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 13px 19px;
+  min-width: min(340px, 100%);
+  box-shadow: var(--shadow);
+  font-weight: 650;
+}
+
+.arsenal-home-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 27px;
+  padding: 3px 9px;
+  border: 1px solid rgba(67,230,255,.25);
+  border-radius: 999px;
+  background: rgba(67,230,255,.09);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.planet-list-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 0;
+}
+
+.planet-list-item .planet-button {
+  width: 100%;
+  height: 100%;
+}
+
+.planet-add-btn {
+  appearance: none;
+  align-self: stretch;
+  min-width: 48px;
+  padding: 8px;
+  border: 1px solid rgba(67,230,255,.26);
+  border-radius: 12px;
+  background: rgba(8,39,54,.9);
+  color: var(--cyan2);
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.planet-add-btn:disabled {
+  border-color: rgba(71,220,177,.30);
+  background: rgba(21,77,67,.42);
+  color: #8fe6c9;
+  cursor: default;
+  font-size: .76rem;
+  font-weight: 700;
+}
+
+.planet-arsenal-action {
+  margin: 14px 0 4px;
+}
+
+.planet-arsenal-btn {
+  width: 100%;
+  padding: 12px 16px;
+  font-weight: 650;
+}
+
+.planet-arsenal-btn:disabled {
+  border-color: rgba(71,220,177,.28);
+  background: rgba(21,77,67,.28);
+  color: #8fe6c9;
+  cursor: default;
+}
+
+.arsenal-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 20px 0 8px;
+  padding: 16px;
+  border: 1px solid rgba(67,230,255,.16);
+  border-radius: 16px;
+  background: rgba(6,29,42,.72);
+}
+
+.arsenal-summary {
+  margin: 0;
+  color: #eafaff;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.arsenal-note {
+  margin: 8px 2px 18px;
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
+
+.arsenal-clear-btn {
+  flex: 0 0 auto;
+  padding: 9px 13px;
+  color: #b6dce5;
+  font-size: .82rem;
+}
+
+.arsenal-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.arsenal-card {
+  position: relative;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(67,230,255,.20);
+  border-radius: 16px;
+  background: linear-gradient(155deg, rgba(10,42,58,.94), rgba(3,17,27,.97));
+  box-shadow: 0 0 20px rgba(30,215,255,.08);
+  transition: border-color .16s ease, opacity .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+
+.arsenal-card.dragging { opacity: .42; transform: scale(.98); }
+
+.arsenal-image-button {
+  appearance: none;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.arsenal-image-button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.arsenal-image-button:hover .arsenal-card-image {
+  filter: brightness(1.08);
+}
+
+.arsenal-order {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.arsenal-order:active { cursor: grabbing; }
+.arsenal-card.drag-over {
+  border-color: var(--cyan);
+  box-shadow: 0 0 25px rgba(30,215,255,.22);
+}
+
+.arsenal-order {
+  position: absolute;
+  z-index: 1;
+  top: 17px;
+  left: 17px;
+  display: grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 7px;
+  border: 1px solid rgba(67,230,255,.55);
+  border-radius: 999px;
+  background: rgba(2,13,21,.88);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 750;
+  box-shadow: 0 0 12px rgba(67,230,255,.18);
+}
+
+.arsenal-card-image {
+  display: block;
+  width: 100%;
+  height: 245px;
+  object-fit: contain;
+  border-radius: 9px;
+  background: rgba(1,9,15,.38);
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.arsenal-card-info {
+  padding: 10px 3px 7px;
+  text-align: center;
+}
+
+.arsenal-card-info strong {
+  display: block;
+  color: #f0fbff;
+  font-size: .94rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.arsenal-card-info small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.arsenal-card-controls {
+  display: grid;
+  grid-template-columns: 38px 38px minmax(0, 1fr);
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.arsenal-move-btn,
+.arsenal-remove-btn {
+  min-height: 36px;
+  padding: 6px 8px;
+  font-size: .85rem;
+}
+
+.arsenal-move-btn:disabled {
+  opacity: .32;
+  cursor: default;
+  transform: none;
+}
+
+.arsenal-remove-btn {
+  color: #b7d2da;
+  border-color: rgba(142,183,196,.22);
+  font-size: .75rem;
+}
+
+.arsenal-empty {
+  margin: 20px 0;
+  padding: 30px 18px;
+  border: 1px dashed rgba(67,230,255,.28);
+  border-radius: 18px;
+  background: rgba(6,29,42,.52);
+  text-align: center;
+}
+
+.arsenal-empty p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.arsenal-empty-btn { padding: 10px 16px; }
+
 @media (max-width: 900px) {
   .level-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .level-card:last-child { grid-column: 1 / -1; }
@@ -433,6 +722,11 @@ button { -webkit-tap-highlight-color: transparent; }
   .effects-panel { padding: 12px; }
   .nav button { padding: 11px 12px; font-size: .9rem; }
 }
+
+
+@media (max-width: 560px) {
+  .arsenal-toolbar { align-items: flex-start; flex-direction: column; }
+}
 </style>
 </head>
 
@@ -450,6 +744,12 @@ button { -webkit-tap-highlight-color: transparent; }
       <p class="intro">
         Selecione o nível do Sistema Estelar para consultar as cartas e seus efeitos.
       </p>
+      <div class="home-actions">
+        <button class="arsenal-home-btn" type="button" onclick="openArsenal()">
+          <span>Arsenal Planetário</span>
+          <span id="arsenalHomeCount" class="arsenal-home-count">0</span>
+        </button>
+      </div>
       <div id="levelGrid" class="level-grid"></div>
     </div>
   </section>
@@ -464,9 +764,27 @@ button { -webkit-tap-highlight-color: transparent; }
     <div id="planetList" class="planet-list"></div>
   </section>
 
+  <section id="arsenalScreen" class="screen">
+    <div class="topbar">
+      <button class="back" type="button" onclick="showHome()">← Início</button>
+      <h1 class="screen-title">Arsenal Planetário</h1>
+    </div>
+
+    <div class="arsenal-toolbar">
+      <p id="arsenalSummary" class="arsenal-summary">Seu Arsenal está vazio.</p>
+      <button class="arsenal-clear-btn" type="button" onclick="clearArsenal()">Limpar arsenal</button>
+    </div>
+    <p class="arsenal-note">Arraste o número da posição para reorganizar a sequência ou use as setas. O Arsenal é salvo automaticamente neste navegador.</p>
+    <div id="arsenalEmpty" class="arsenal-empty">
+      <p>Você ainda não adicionou planetas ao seu Arsenal.<br>Volte ao catálogo e escolha as cartas que deseja reunir.</p>
+      <button class="arsenal-empty-btn" type="button" onclick="showHome()">Escolher planetas</button>
+    </div>
+    <div id="arsenalList" class="arsenal-list" aria-label="Cartas do Arsenal Planetário"></div>
+  </section>
+
   <section id="planetScreen" class="screen">
     <div class="topbar">
-      <button class="back" onclick="showList()">← Lista</button>
+      <button class="back" id="planetBackButton" onclick="showList()">← Lista</button>
       <h1 id="planetTopTitle" class="screen-title">Planeta</h1>
     </div>
 
@@ -479,6 +797,10 @@ button { -webkit-tap-highlight-color: transparent; }
         <div class="planet-heading">
           <h2 id="planetName"></h2>
           <div id="planetLevel" class="lvl"></div>
+        </div>
+
+        <div class="planet-arsenal-action">
+          <button id="planetArsenalButton" class="planet-arsenal-btn" type="button">＋ Inserir no Arsenal</button>
         </div>
 
         <div class="effects-title">Efeitos de investigação</div>
@@ -2328,7 +2650,13 @@ let indiceAtual = 0;
 
 const homeScreen = document.getElementById("homeScreen");
 const listScreen = document.getElementById("listScreen");
+const arsenalScreen = document.getElementById("arsenalScreen");
 const planetScreen = document.getElementById("planetScreen");
+
+const ARSENAL_STORAGE_KEY = "lifeHuntBaseArsenalV1";
+let arsenalPlanetNames = loadArsenal();
+let draggedArsenalIndex = null;
+let returnToArsenalAfterPlanet = false;
 
 function escapeHtml(s) {
   return String(s)
@@ -2342,6 +2670,7 @@ function escapeHtml(s) {
 function showOnly(el) {
   homeScreen.style.display = "none";
   listScreen.classList.remove("active");
+  arsenalScreen.classList.remove("active");
   planetScreen.classList.remove("active");
 
   if (el === homeScreen) homeScreen.style.display = "block";
@@ -2386,13 +2715,26 @@ function renderList(items) {
 
   items.forEach(p => {
     const originalIndex = listaAtual.findIndex(x => x.nome === p.nome);
-    const b = document.createElement("button");
-    b.className = "planet-button";
-    b.innerHTML = `
+    const item = document.createElement("div");
+    item.className = "planet-list-item";
+
+    const detailButton = document.createElement("button");
+    detailButton.type = "button";
+    detailButton.className = "planet-button";
+    detailButton.innerHTML = `
       <strong>${escapeHtml(p.nome)}</strong>
     `;
-    b.onclick = () => openPlanet(originalIndex);
-    list.appendChild(b);
+    detailButton.addEventListener("click", () => openPlanet(originalIndex));
+
+    const addButton = document.createElement("button");
+    addButton.type = "button";
+    addButton.className = "planet-add-btn";
+    addButton.dataset.planetName = p.nome;
+    addButton.addEventListener("click", () => addPlanetToArsenal(p.nome));
+
+    item.append(detailButton, addButton);
+    list.appendChild(item);
+    updateListAddButton(addButton);
   });
 
   if (!items.length) {
@@ -2400,8 +2742,249 @@ function renderList(items) {
   }
 }
 
+function loadArsenal() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(ARSENAL_STORAGE_KEY) || "[]");
+    if (!Array.isArray(saved)) return [];
+    const validNames = new Set(PLANETAS.map(p => p.nome));
+    return [...new Set(saved.filter(name => typeof name === "string" && validNames.has(name)))];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveArsenal() {
+  try {
+    localStorage.setItem(ARSENAL_STORAGE_KEY, JSON.stringify(arsenalPlanetNames));
+  } catch (error) {
+    // O catálogo continua utilizável mesmo quando o navegador bloqueia o armazenamento local.
+  }
+}
+
+function updateArsenalCount() {
+  const count = arsenalPlanetNames.length;
+  const badge = document.getElementById("arsenalHomeCount");
+  if (badge) badge.textContent = count;
+}
+
+function updateListAddButton(button) {
+  const selected = arsenalPlanetNames.includes(button.dataset.planetName);
+  button.disabled = selected;
+  button.textContent = selected ? "✓" : "+";
+  button.title = selected ? "Este planeta já está no Arsenal" : "Inserir no Arsenal Planetário";
+  button.setAttribute("aria-label", `${selected ? "Já está no Arsenal:" : "Inserir no Arsenal:"} ${button.dataset.planetName}`);
+}
+
+function updateAllAddButtons() {
+  document.querySelectorAll(".planet-add-btn").forEach(updateListAddButton);
+}
+
+function updatePlanetArsenalButton(planet) {
+  const button = document.getElementById("planetArsenalButton");
+  if (!button || !planet) return;
+  const selected = arsenalPlanetNames.includes(planet.nome);
+  button.disabled = selected;
+  button.textContent = selected ? "✓ Já está no Arsenal" : "＋ Inserir no Arsenal";
+  button.onclick = () => addPlanetToArsenal(planet.nome);
+}
+
+function addPlanetToArsenal(name) {
+  if (!PLANETAS.some(p => p.nome === name)) return;
+  if (arsenalPlanetNames.includes(name)) return;
+
+  arsenalPlanetNames.push(name);
+  saveArsenal();
+  updateArsenalCount();
+  updateAllAddButtons();
+
+  if (planetScreen.classList.contains("active")) {
+    updatePlanetArsenalButton(listaAtual[indiceAtual]);
+  }
+  if (arsenalScreen.classList.contains("active")) renderArsenal();
+}
+
+function removePlanetFromArsenal(name) {
+  arsenalPlanetNames = arsenalPlanetNames.filter(item => item !== name);
+  saveArsenal();
+  updateArsenalCount();
+  updateAllAddButtons();
+  if (planetScreen.classList.contains("active")) {
+    updatePlanetArsenalButton(listaAtual[indiceAtual]);
+  }
+  renderArsenal();
+}
+
+function moveArsenalPlanet(index, direction) {
+  const target = index + direction;
+  if (index < 0 || target < 0 || index >= arsenalPlanetNames.length || target >= arsenalPlanetNames.length) return;
+  [arsenalPlanetNames[index], arsenalPlanetNames[target]] = [arsenalPlanetNames[target], arsenalPlanetNames[index]];
+  saveArsenal();
+  renderArsenal();
+}
+
+function clearArsenal() {
+  if (!arsenalPlanetNames.length) return;
+  if (!window.confirm("Deseja remover todos os planetas do Arsenal Planetário?")) return;
+  arsenalPlanetNames = [];
+  saveArsenal();
+  updateArsenalCount();
+  updateAllAddButtons();
+  if (planetScreen.classList.contains("active")) {
+    updatePlanetArsenalButton(listaAtual[indiceAtual]);
+  }
+  renderArsenal();
+}
+
+function openArsenal() {
+  renderArsenal();
+  showOnly(arsenalScreen);
+}
+
+function renderArsenal() {
+  const list = document.getElementById("arsenalList");
+  const empty = document.getElementById("arsenalEmpty");
+  const summary = document.getElementById("arsenalSummary");
+  list.innerHTML = "";
+
+  const count = arsenalPlanetNames.length;
+  summary.textContent = count === 1
+    ? "1 planeta no seu Arsenal Planetário."
+    : `${count} planetas no seu Arsenal Planetário.`;
+  empty.style.display = count ? "none" : "block";
+
+  arsenalPlanetNames.forEach((name, index) => {
+    const planet = PLANETAS.find(p => p.nome === name);
+    if (!planet) return;
+
+    const card = document.createElement("article");
+    card.className = "arsenal-card";
+    card.draggable = false;
+    card.dataset.index = index;
+    card.setAttribute("aria-label", `${index + 1}. ${planet.nome}`);
+
+    const order = document.createElement("span");
+    order.className = "arsenal-order";
+    order.textContent = String(index + 1).padStart(2, "0");
+    order.draggable = true;
+    order.title = "Arraste este número para reorganizar os planetas";
+    order.setAttribute("aria-label", `Arrastar para reordenar ${planet.nome}`);
+
+    const imageButton = document.createElement("button");
+    imageButton.type = "button";
+    imageButton.className = "arsenal-image-button";
+    imageButton.title = `Abrir detalhes de ${planet.nome}`;
+    imageButton.setAttribute("aria-label", `Abrir detalhes de ${planet.nome}`);
+    imageButton.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openPlanetFromArsenal(planet.nome);
+    });
+
+    const image = document.createElement("img");
+    image.className = "arsenal-card-image";
+    image.src = planet.imagem;
+    image.alt = `Carta do planeta ${planet.nome}`;
+    image.draggable = false;
+    imageButton.appendChild(image);
+
+    const info = document.createElement("div");
+    info.className = "arsenal-card-info";
+    const nameEl = document.createElement("strong");
+    nameEl.textContent = planet.nome;
+    const levelEl = document.createElement("small");
+    levelEl.textContent = `Nível ${ROMANOS[planet.nivel]}`;
+    info.append(nameEl, levelEl);
+
+    const controls = document.createElement("div");
+    controls.className = "arsenal-card-controls";
+
+    const up = document.createElement("button");
+    up.type = "button";
+    up.className = "arsenal-move-btn";
+    up.textContent = "↑";
+    up.title = "Mover para cima na sequência";
+    up.setAttribute("aria-label", `Mover ${planet.nome} para antes`);
+    up.disabled = index === 0;
+    up.addEventListener("click", () => moveArsenalPlanet(index, -1));
+
+    const down = document.createElement("button");
+    down.type = "button";
+    down.className = "arsenal-move-btn";
+    down.textContent = "↓";
+    down.title = "Mover para baixo na sequência";
+    down.setAttribute("aria-label", `Mover ${planet.nome} para depois`);
+    down.disabled = index === count - 1;
+    down.addEventListener("click", () => moveArsenalPlanet(index, 1));
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "arsenal-remove-btn";
+    remove.textContent = "Retirar";
+    remove.addEventListener("click", () => removePlanetFromArsenal(name));
+
+    controls.append(up, down, remove);
+    card.append(order, imageButton, info, controls);
+
+    card.addEventListener("dragstart", event => {
+      draggedArsenalIndex = index;
+      card.classList.add("dragging");
+      if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", String(index));
+      }
+    });
+    card.addEventListener("dragover", event => {
+      event.preventDefault();
+      card.classList.add("drag-over");
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+    });
+    card.addEventListener("dragleave", () => card.classList.remove("drag-over"));
+    card.addEventListener("drop", event => {
+      event.preventDefault();
+      const from = draggedArsenalIndex !== null
+        ? draggedArsenalIndex
+        : Number(event.dataTransfer && event.dataTransfer.getData("text/plain"));
+      const to = Number(card.dataset.index);
+      if (!Number.isInteger(from) || from < 0 || from >= arsenalPlanetNames.length || from === to) return;
+      const moved = arsenalPlanetNames.splice(from, 1)[0];
+      arsenalPlanetNames.splice(to, 0, moved);
+      draggedArsenalIndex = null;
+      saveArsenal();
+      renderArsenal();
+    });
+    card.addEventListener("dragend", () => {
+      draggedArsenalIndex = null;
+      card.classList.remove("dragging");
+      document.querySelectorAll(".arsenal-card.drag-over").forEach(el => el.classList.remove("drag-over"));
+    });
+
+    list.appendChild(card);
+  });
+
+  updateArsenalCount();
+}
+
 function openPlanet(index) {
+  returnToArsenalAfterPlanet = false;
+  document.getElementById("planetBackButton").textContent = "← Lista";
   indiceAtual = index;
+  renderPlanet();
+  showOnly(planetScreen);
+}
+
+function openPlanetFromArsenal(name) {
+  const planet = PLANETAS.find(p => p.nome === name);
+  if (!planet) return;
+
+  // Mantém a navegação Anterior/Próximo restrita ao nível do planeta aberto.
+  nivelAtual = planet.nivel;
+  listaAtual = PLANETAS
+    .filter(p => p.nivel === planet.nivel)
+    .sort((a,b) => a.nome.localeCompare(b.nome, "pt-BR"));
+  indiceAtual = listaAtual.findIndex(p => p.nome === name);
+
+  returnToArsenalAfterPlanet = true;
+  document.getElementById("planetBackButton").textContent = "← Arsenal";
   renderPlanet();
   showOnly(planetScreen);
 }
@@ -2412,6 +2995,7 @@ function renderPlanet() {
   document.getElementById("planetName").textContent = p.nome;
   document.getElementById("planetTopTitle").textContent = p.nome;
   document.getElementById("planetLevel").textContent = `Nível ${ROMANOS[p.nivel]}`;
+  updatePlanetArsenalButton(p);
 
   const img = document.getElementById("cardImage");
   img.src = p.imagem;
@@ -2472,6 +3056,12 @@ function showHome() {
 }
 
 function showList() {
+  if (returnToArsenalAfterPlanet) {
+    returnToArsenalAfterPlanet = false;
+    renderArsenal();
+    showOnly(arsenalScreen);
+    return;
+  }
   showOnly(listScreen);
 }
 
@@ -2505,6 +3095,8 @@ document.addEventListener("keydown", (e) => {
 });
 
 buildLevels();
+updateArsenalCount();
+renderArsenal();
 showHome();
 </script>
 </body>
